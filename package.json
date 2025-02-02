@@ -3,9 +3,12 @@
   "module": "src/index.ts",
   "type": "module",
   "devDependencies": {
+    "@biomejs/biome": "1.9.4",
+    "@mkobayashime/shared-config": "1.1.0",
     "@tsconfig/bun": "1.0.7",
     "@tsconfig/strictest": "2.0.5",
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "eslint": "9.19.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
