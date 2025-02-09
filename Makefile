@@ -1,6 +1,7 @@
 biome = bunx biome
 eslint = bunx eslint
 typecheck = bunx tsc --noEmit
+vitest = bunx vitest
 
 deps:
 	bun install
@@ -18,5 +19,11 @@ typecheck: deps PHONY
 
 typecheck.watch: deps PHONY
 	$(typecheck) --watch
+
+test: deps PHONY
+	$(vitest) run
+
+test.watch: deps PHONY
+	$(vitest) watch
 
 PHONY:
