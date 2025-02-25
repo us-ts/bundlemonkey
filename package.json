@@ -15,6 +15,7 @@
 		"@types/bun": "latest",
 		"eslint": "9.19.0",
 		"tsup": "8.3.6",
+		"type-fest": "4.35.0",
 		"vitest": "3.0.5"
 	},
 	"peerDependencies": {
