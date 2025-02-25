@@ -1,7 +1,8 @@
 import type { Meta } from "./meta/index.js";
 
-export const defineUserScript = (
+export const defineUserScript = <C>(
 	args: Meta & {
-		main: () => unknown;
+		main: (config: C) => unknown;
+		config?: C;
 	},
 ) => args;

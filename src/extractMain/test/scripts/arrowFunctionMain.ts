@@ -6,16 +6,12 @@ export default defineUserScript({
 	version: "0.1.0",
 	description: "",
 	match: ["https://example.com/*"],
-	main: () => {
-		// @preserve scriptConfig
-		const config = {
-			foo: "bar",
-		};
-
+	config: {
+		foo: "bar",
+	},
+	main: ({ foo }) => {
 		console.log(message);
 
-		void (({ foo }) => {
-			console.log(foo);
-		})(config);
+		console.log(foo);
 	},
 });

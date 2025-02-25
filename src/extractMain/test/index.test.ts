@@ -12,19 +12,15 @@ describe(extractMain, () => {
 			"import { defineUserScript } from "../../..";
 			import { message } from "./module";
 
-			void (() => {
-					// @preserve scriptConfig
-					const config = {
-						foo: "bar",
-					};
+			const __bundlemonkey_script_config = {
+					foo: "bar",
+				}
 
+			void (({ foo }) => {
 					console.log(message);
 
-					void (({ foo }) => {
-						console.log(foo);
-					})(config);
-				})();
-			"
+					console.log(foo);
+				})(__bundlemonkey_script_config);"
 		`);
 	});
 
@@ -39,8 +35,7 @@ describe(extractMain, () => {
 
 			void (function () {
 					console.log(message);
-				})();
-			"
+				})();"
 		`);
 	});
 
@@ -55,8 +50,7 @@ describe(extractMain, () => {
 
 			void (function () {
 			    console.log(message);
-			})();
-			"
+			})();"
 		`);
 	});
 
@@ -70,8 +64,7 @@ describe(extractMain, () => {
 
 			void (() => {
 					console.log("hello from js");
-				})();
-			"
+				})();"
 		`);
 	});
 });

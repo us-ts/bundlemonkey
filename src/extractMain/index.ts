@@ -1,6 +1,8 @@
 import { readFile } from "node:fs/promises";
 import ts from "typescript";
 
+const CONFIG_VAR_NAME = "__bundlemonkey_script_config";
+
 export const extractMain = async (filepath: string): Promise<string> => {
 	const originalSource = await readFile(filepath, "utf8");
 	const sourceFile = ts.createSourceFile(
@@ -80,6 +82,32 @@ export const extractMain = async (filepath: string): Promise<string> => {
 		return;
 	};
 
+	const findConfigLiteral = (
+		defineUserScriptArgument: ts.ObjectLiteralExpression,
+	) => {
+		for (const prop of defineUserScriptArgument.properties) {
+			const propName =
+				prop.name &&
+				(ts.isIdentifier(prop.name) || ts.isStringLiteral(prop.name))
+					? prop.name.text
+					: undefined;
+
+			if (propName !== "config") {
+				continue;
+			}
+
+			if (!ts.isPropertyAssignment(prop)) {
+				throw new Error("Invalid config defined.");
+			}
+
+			const configLiteral = prop.initializer;
+
+			return configLiteral.getText(sourceFile);
+		}
+
+		return;
+	};
+
 	const defineUserScriptExpression = findDefineUserScriptExpression(sourceFile);
 	const defineUserScriptArgument = defineUserScriptExpression?.arguments[0];
 	if (
@@ -93,6 +121,8 @@ export const extractMain = async (filepath: string): Promise<string> => {
 	if (!mainFunctionText) {
 		throw new Error("No main function found in defineUserScript export.");
 	}
+
+	const configLiteral = findConfigLiteral(defineUserScriptArgument);
 
 	const statementsWithoutTheExport = sourceFile.statements.filter(
 		(statement) => {
@@ -117,8 +147,15 @@ export const extractMain = async (filepath: string): Promise<string> => {
 	const printer = ts.createPrinter();
 	const codeWithoutExport = printer.printFile(updatedSourceFile);
 
-	const trimmedMainFunction = mainFunctionText.trim();
-	const iifeText = `void (${trimmedMainFunction})();\n`;
+	const iifeText = `void (${mainFunctionText.trim()})(${configLiteral ? CONFIG_VAR_NAME : ""});`;
 
-	return `${codeWithoutExport}\n${iifeText}`;
+	return [
+		codeWithoutExport.trim(),
+		configLiteral
+			? `const ${CONFIG_VAR_NAME} = ${configLiteral.trim()}`
+			: undefined,
+		iifeText,
+	]
+		.filter((s) => s)
+		.join("\n\n");
 };
