@@ -9,76 +9,87 @@ export const extractMain = async (filepath: string): Promise<string> => {
 		ts.ScriptTarget.Latest,
 	);
 
-	const findMainFunction = (node: ts.Node): string | undefined => {
-		if (ts.isExportAssignment(node)) {
-			const expr = node.expression;
+	const findDefineUserScriptExpression = (
+		source: ts.Node,
+	): ts.CallExpression | undefined => {
+		if (ts.isExportAssignment(source)) {
+			const expr = source.expression;
 			if (
 				ts.isCallExpression(expr) &&
 				ts.isIdentifier(expr.expression) &&
 				expr.expression.text === "defineUserScript"
 			) {
-				const arg = expr.arguments[0];
-				if (arg && ts.isObjectLiteralExpression(arg)) {
-					for (const prop of arg.properties) {
-						/**
-						 * main: () => { ... }
-						 * or
-						 * main: function () { ... })
-						 */
-						if (ts.isPropertyAssignment(prop)) {
-							const propName =
-								ts.isIdentifier(prop.name) || ts.isStringLiteral(prop.name)
-									? prop.name.text
-									: undefined;
-							if (propName === "main") {
-								return prop.initializer.getFullText(sourceFile);
-							}
-
-							continue;
-						}
-
-						/**
-						 * Method Declaration (e.g. main() { ... })
-						 */
-						if (ts.isMethodDeclaration(prop)) {
-							const propName =
-								ts.isIdentifier(prop.name) || ts.isStringLiteral(prop.name)
-									? prop.name.text
-									: undefined;
-
-							if (propName === "main") {
-								if (!prop.body) {
-									throw new Error("main method has no body.");
-								}
-
-								// Convert the method declaration to a function expression.
-								const funcExpr = ts.factory.createFunctionExpression(
-									undefined,
-									undefined,
-									undefined,
-									prop.typeParameters,
-									prop.parameters,
-									prop.type,
-									prop.body,
-								);
-
-								const tempPrinter = ts.createPrinter();
-								return tempPrinter.printNode(
-									ts.EmitHint.Expression,
-									funcExpr,
-									sourceFile,
-								);
-							}
-						}
-					}
-				}
+				return expr;
 			}
 		}
 
-		return ts.forEachChild(node, findMainFunction);
+		return ts.forEachChild(source, findDefineUserScriptExpression);
 	};
 
-	const mainFunctionText = findMainFunction(sourceFile);
+	const findMainFunction = (
+		defineUserScriptArgument: ts.ObjectLiteralExpression,
+	) => {
+		for (const prop of defineUserScriptArgument.properties) {
+			const propName =
+				prop.name &&
+				(ts.isIdentifier(prop.name) || ts.isStringLiteral(prop.name))
+					? prop.name.text
+					: undefined;
+
+			if (propName !== "main") {
+				continue;
+			}
+
+			/**
+			 * main: () => { ... }
+			 * or
+			 * main: function () { ... })
+			 */
+			if (ts.isPropertyAssignment(prop)) {
+				return prop.initializer.getFullText(sourceFile);
+			}
+
+			/**
+			 * Method Declaration (e.g. main() { ... })
+			 */
+			if (ts.isMethodDeclaration(prop)) {
+				if (!prop.body) {
+					throw new Error("main method has no body.");
+				}
+
+				// Convert the method declaration to a function expression.
+				const funcExpr = ts.factory.createFunctionExpression(
+					undefined,
+					undefined,
+					undefined,
+					prop.typeParameters,
+					prop.parameters,
+					prop.type,
+					prop.body,
+				);
+
+				const tempPrinter = ts.createPrinter();
+				return tempPrinter.printNode(
+					ts.EmitHint.Expression,
+					funcExpr,
+					sourceFile,
+				);
+			}
+		}
+
+		return;
+	};
+
+	const defineUserScriptExpression = findDefineUserScriptExpression(sourceFile);
+	const defineUserScriptArgument = defineUserScriptExpression?.arguments[0];
+	if (
+		!defineUserScriptArgument ||
+		!ts.isObjectLiteralExpression(defineUserScriptArgument)
+	) {
+		throw new Error("Scripts must export defineUserScript.");
+	}
+
+	const mainFunctionText = findMainFunction(defineUserScriptArgument);
 	if (!mainFunctionText) {
 		throw new Error("No main function found in defineUserScript export.");
 	}
