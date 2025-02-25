@@ -36,6 +36,7 @@ export type Config = OverrideProperties<
 	v.InferInput<typeof configSchema>,
 	{ defaultMeta?: DefaultMeta }
 >;
+export type ParsedConfig = v.InferOutput<typeof configSchema>;
 
 export const loadConfig = async () => {
 	try {
