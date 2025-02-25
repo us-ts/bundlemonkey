@@ -1,4 +1,5 @@
 import type { OverrideProperties } from "type-fest";
+import path from "node:path";
 import * as v from "valibot";
 import { metaSchema } from "../meta";
 
@@ -35,3 +36,19 @@ export type Config = OverrideProperties<
 	v.InferInput<typeof configSchema>,
 	{ defaultMeta?: DefaultMeta }
 >;
+
+export const loadConfig = async () => {
+	try {
+		const loaded = await Promise.any(
+			["bundlemonkey.config.ts", "bundlemonkey.config.js"].map(
+				async (configFile) =>
+					(await import(path.resolve(process.cwd(), configFile))) as unknown,
+			),
+		);
+
+		const parsed = v.parse(v.object({ default: configSchema }), loaded);
+		return parsed.default;
+	} catch (_) {
+		return v.parse(configSchema, {});
+	}
+};
