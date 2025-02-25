@@ -2,6 +2,8 @@
 	"name": "bundlemonkey",
 	"module": "src/index.ts",
 	"type": "module",
+	"main": "dist/index.js",
+	"files": ["dist"],
 	"dependencies": {
 		"valibot": "^1.0.0-beta.14"
 	},

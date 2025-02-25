@@ -1,5 +1,6 @@
 biome = bunx biome
 eslint = bunx eslint
+tsup = bunx tsup
 typecheck = bunx tsc --noEmit
 vitest = bunx vitest
 
@@ -25,5 +26,9 @@ test: deps PHONY
 
 test.watch: deps PHONY
 	$(vitest) watch
+
+build: deps PHONY
+	$(tsup)
+	chmod a+x dist/bin/index.js
 
 PHONY:
