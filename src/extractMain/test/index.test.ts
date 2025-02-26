@@ -12,7 +12,7 @@ describe(extractMain, () => {
 			"import { defineUserScript } from "../../..";
 			import { message } from "./module";
 
-			const __bundlemonkey_script_config = {
+			const userscriptConfig = {
 					foo: "bar",
 				}
 
@@ -20,7 +20,7 @@ describe(extractMain, () => {
 					console.log(message);
 
 					console.log(foo);
-				})(__bundlemonkey_script_config);"
+				})(userscriptConfig);"
 		`);
 	});
 

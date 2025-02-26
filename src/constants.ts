@@ -1,1 +1,1 @@
-export const CONFIG_VAR_NAME = "__bundlemonkey_script_config";
+export const CONFIG_VAR_NAME = "userscriptConfig";

@@ -37,8 +37,5 @@ export function hoistConfig(source: string): string {
 	const remainingText =
 		source.substring(0, hoistedStart) + source.substring(hoistedEnd + 1);
 
-	return `${hoistedText.trim()}\n\n${remainingText.trim()}`.replaceAll(
-		CONFIG_VAR_NAME,
-		"config",
-	);
+	return `${hoistedText.trim()}\n\n${remainingText.trim()}`;
 }

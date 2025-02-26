@@ -1,6 +1,6 @@
 console.log("hello");
 
-var __bundlemonkey_script_config = {
+var userscriptConfig = {
 	/**
 	 * @type string
 	 */
@@ -9,4 +9,4 @@ var __bundlemonkey_script_config = {
 
 void (({ message }) => {
 	console.log(message);
-})(__bundlemonkey_script_config);
+})(userscriptConfig);

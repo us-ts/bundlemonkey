@@ -14,7 +14,7 @@ describe(hoistConfig, () => {
 		);
 
 		expect(output).toMatchInlineSnapshot(`
-			"var config = {
+			"var userscriptConfig = {
 				/**
 				 * @type string
 				 */
@@ -26,7 +26,7 @@ describe(hoistConfig, () => {
 
 			void (({ message }) => {
 				console.log(message);
-			})(config);"
+			})(userscriptConfig);"
 		`);
 	});
 
