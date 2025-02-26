@@ -1,0 +1,18 @@
+on: push
+
+name: CI
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+      - run: make deps
+      - run: make lint
+      - run: make typecheck
+      - run: make test
+      - run: make build
