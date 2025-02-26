@@ -3,6 +3,7 @@
 	"module": "src/index.ts",
 	"type": "module",
 	"main": "dist/index.js",
+	"bin": "dist/bin/index.js",
 	"files": ["dist"],
 	"dependencies": {
 		"clipboardy": "4.0.0",
