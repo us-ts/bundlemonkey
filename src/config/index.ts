@@ -1,5 +1,5 @@
-import type { OverrideProperties } from "type-fest";
 import path from "node:path";
+import type { OverrideProperties } from "type-fest";
 import * as v from "valibot";
 import { metaSchema } from "../meta";
 
