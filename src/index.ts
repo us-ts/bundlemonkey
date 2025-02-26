@@ -8,3 +8,5 @@ export const defineUserScript = <C>(
 		config?: C;
 	},
 ) => args;
+
+export { main } from "./main.js";
