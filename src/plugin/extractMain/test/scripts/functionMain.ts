@@ -1,4 +1,4 @@
-import { defineUserScript } from "../../..";
+import { defineUserScript } from "../../../..";
 import { message } from "./module";
 
 export default defineUserScript({

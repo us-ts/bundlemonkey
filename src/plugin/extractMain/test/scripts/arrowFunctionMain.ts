@@ -1,12 +1,17 @@
-import { defineUserScript } from "../../..";
+import { defineUserScript } from "../../../..";
 import { message } from "./module";
 
 export default defineUserScript({
-	name: "method",
+	name: "arrow function",
 	version: "0.1.0",
 	description: "",
 	match: ["https://example.com/*"],
-	main() {
+	config: {
+		foo: "bar",
+	},
+	main: ({ foo }) => {
 		console.log(message);
+
+		console.log(foo);
 	},
 });

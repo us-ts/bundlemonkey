@@ -1,6 +1,6 @@
 import { readFile } from "node:fs/promises";
 import ts from "typescript";
-import { CONFIG_VAR_NAME } from "../constants";
+import { CONFIG_VAR_NAME } from "../../constants";
 
 export const extractMain = async (filepath: string): Promise<string> => {
 	const originalSource = await readFile(filepath, "utf8");

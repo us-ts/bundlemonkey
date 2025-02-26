@@ -1,4 +1,4 @@
-import { defineUserScript } from "../../..";
+import { defineUserScript } from "../../../..";
 
 export default defineUserScript({
 	name: "in JS",

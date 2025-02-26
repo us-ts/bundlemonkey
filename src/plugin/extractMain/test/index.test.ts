@@ -9,7 +9,7 @@ describe(extractMain, () => {
 		);
 
 		expect(output).toMatchInlineSnapshot(`
-			"import { defineUserScript } from "../../..";
+			"import { defineUserScript } from "../../../..";
 			import { message } from "./module";
 
 			const userscriptConfig = {
@@ -30,7 +30,7 @@ describe(extractMain, () => {
 		);
 
 		expect(output).toMatchInlineSnapshot(`
-			"import { defineUserScript } from "../../..";
+			"import { defineUserScript } from "../../../..";
 			import { message } from "./module";
 
 			void (function () {
@@ -45,7 +45,7 @@ describe(extractMain, () => {
 		);
 
 		expect(output).toMatchInlineSnapshot(`
-			"import { defineUserScript } from "../../..";
+			"import { defineUserScript } from "../../../..";
 			import { message } from "./module";
 
 			void (function () {
@@ -60,7 +60,7 @@ describe(extractMain, () => {
 		);
 
 		expect(output).toMatchInlineSnapshot(`
-			"import { defineUserScript } from "../../..";
+			"import { defineUserScript } from "../../../..";
 
 			void (() => {
 					console.log("hello from js");
