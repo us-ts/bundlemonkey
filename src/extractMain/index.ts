@@ -1,7 +1,6 @@
 import { readFile } from "node:fs/promises";
 import ts from "typescript";
-
-const CONFIG_VAR_NAME = "__bundlemonkey_script_config";
+import { CONFIG_VAR_NAME } from "../constants";
 
 export const extractMain = async (filepath: string): Promise<string> => {
 	const originalSource = await readFile(filepath, "utf8");

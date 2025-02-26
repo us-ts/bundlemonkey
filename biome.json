@@ -2,6 +2,6 @@
 	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
 	"extends": ["@mkobayashime/shared-config/biome"],
 	"linter": {
-		"ignore": [".tsup"]
+		"ignore": [".tsup", "src/**/test/source/*"]
 	}
 }
