@@ -5,8 +5,8 @@ import clipboard from "clipboardy";
 import type * as esbuild from "esbuild";
 import * as v from "valibot";
 import type { ParsedConfig } from "../config";
-import { extractMain } from "./extractMain";
 import { type Meta, metaSchema } from "../meta";
+import { extractMain } from "./extractMain";
 import { generateMetaHeader } from "./generateMetaHeader";
 import { hoistConfig } from "./hoistConfig";
 
