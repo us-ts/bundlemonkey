@@ -1,5 +1,5 @@
-import type { ParsedConfig } from "../config";
-import type { Meta } from "../meta";
+import type { ParsedConfig } from "../../config";
+import type { Meta } from "../../meta";
 
 export const generateMetaHeader = ({
 	meta,
