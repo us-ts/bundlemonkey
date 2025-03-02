@@ -3,7 +3,7 @@
 import { parseArgs } from "node:util";
 import { main } from "../main";
 
-const { values, positionals: scripts } = parseArgs({
+const { values } = parseArgs({
 	args: process.argv.slice(2),
 	options: {
 		watch: {
@@ -25,4 +25,4 @@ const mode = values.watch
 		: "watch"
 	: "production";
 
-await main({ mode, scripts });
+await main({ mode });
