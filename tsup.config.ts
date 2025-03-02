@@ -6,5 +6,4 @@ export default defineConfig({
 		resolve: true,
 	},
 	format: "esm",
-	splitting: false,
 });
