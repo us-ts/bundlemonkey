@@ -17,11 +17,9 @@ export const main = async ({
 				return [];
 			}
 
-			const out = `${path.basename(
-				filepath.endsWith("/index.user.ts")
-					? filepath.replace(/\/index\.user\.ts$/, "")
-					: filepath,
-			)}.user`;
+			const out = /^index\.user\.(j|t)s$/.test(path.basename(filepath))
+				? `${path.basename(path.dirname(filepath))}.user`
+				: path.basename(filepath).replace(/\.(j|t)s$/, "");
 			return [{ out, in: filepath }];
 		});
 
