@@ -8,7 +8,7 @@
 	"dependencies": {
 		"clipboardy": "4.0.0",
 		"esbuild": "0.25.0",
-		"tsx": "4.19.2",
+		"importx": "^0.5.2",
 		"valibot": "^1.0.0-beta.14"
 	},
 	"devDependencies": {

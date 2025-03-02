@@ -1,8 +1,10 @@
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
+import url from "node:url";
 import { styleText } from "node:util";
 import clipboard from "clipboardy";
 import type * as esbuild from "esbuild";
+import * as importx from "importx";
 import * as v from "valibot";
 import type { ParsedConfig } from "../config";
 import { type Meta, metaSchema } from "../meta";
@@ -36,11 +38,19 @@ export const userscriptsPlugin = ({
 				}
 
 				try {
-					const imported = (await import(
-						/**
-						 * disable ESM cache forcibly
-						 */
-						path.resolve(process.cwd(), `${args.path}?t=${Date.now()}`)
+					const imported = (await importx.import(
+						url
+							.pathToFileURL(
+								path.resolve(
+									process.cwd(),
+									/**
+									 * disable ESM cache forcibly
+									 */
+									`${args.path}?t=${Date.now()}`,
+								),
+							)
+							.toString(),
+						import.meta.url,
 					)) as unknown;
 
 					const { default: parsedMeta } = v.parse(
