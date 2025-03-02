@@ -1,5 +1,6 @@
 import { mkdir } from "node:fs/promises";
 import path from "node:path";
+import { styleText } from "node:util";
 import * as esbuild from "esbuild";
 import { loadConfig } from "./config/index.js";
 import { type Mode, userscriptsPlugin } from "./plugin/index.js";
@@ -30,6 +31,8 @@ export const main = async ({
 		charset: "utf8",
 		format: "esm",
 	};
+
+	console.log(styleText("blue", `Bundlemonkey started in ${mode} mode\n`));
 
 	switch (mode) {
 		case "watch":
