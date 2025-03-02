@@ -21,6 +21,7 @@ type DefaultMeta = OverrideProperties<
 >;
 
 export const configSchema = v.object({
+	srcDir: v.optional(v.string(), "src"),
 	dist: v.optional(
 		v.object({
 			production: v.optional(v.string(), "dist"),

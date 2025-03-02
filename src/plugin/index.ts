@@ -30,11 +30,7 @@ export const userscriptsPlugin = ({
 		name: "userscripts",
 		setup: (build) => {
 			build.onLoad({ filter: /\.user\.(t|j)s$/ }, async (args) => {
-				const scriptName = /^index\.user\.(j|t)s$/.test(
-					path.basename(args.path),
-				)
-					? path.dirname(args.path).split(path.sep).pop()
-					: path.basename(args.path).replace(/\.user\.(j|t)s$/, "");
+				const scriptName = path.basename(path.dirname(args.path));
 
 				if (!scriptName) {
 					throw new Error(
