@@ -1,4 +1,6 @@
 import path from "node:path";
+import url from "node:url";
+import * as importx from "importx";
 import type { OverrideProperties } from "type-fest";
 import * as v from "valibot";
 import { metaSchema } from "../meta";
@@ -30,7 +32,6 @@ export const configSchema = v.object({
 		},
 	),
 	defaultMeta: v.optional(defaultMetaSchema, {}),
-	nativeTS: v.optional(v.boolean(), false),
 });
 export type Config = OverrideProperties<
 	v.InferInput<typeof configSchema>,
@@ -43,7 +44,12 @@ export const loadConfig = async () => {
 		const loaded = await Promise.any(
 			["bundlemonkey.config.ts", "bundlemonkey.config.js"].map(
 				async (configFile) =>
-					(await import(path.resolve(process.cwd(), configFile))) as unknown,
+					(await importx.import(
+						url
+							.pathToFileURL(path.resolve(process.cwd(), configFile))
+							.toString(),
+						import.meta.url,
+					)) as unknown,
 			),
 		);
 

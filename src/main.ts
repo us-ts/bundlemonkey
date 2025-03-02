@@ -10,10 +10,6 @@ export const main = async ({
 }: { mode: Mode; scripts: string[] }) => {
 	const config = await loadConfig();
 
-	if (!config.nativeTS) {
-		await import("tsx");
-	}
-
 	const getEntryPoints = (filePaths?: string[]) =>
 		scripts.flatMap((filepath) => {
 			if (filePaths !== undefined && !filePaths.includes(filepath)) {
