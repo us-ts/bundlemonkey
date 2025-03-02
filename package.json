@@ -1,6 +1,12 @@
 {
 	"name": "bundlemonkey",
 	"version": "0.1.0",
+	"author": "Masaki Kobayashi",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/mkobayashime/bundlemonkey"
+	},
+	"private": false,
 	"module": "src/index.ts",
 	"type": "module",
 	"main": "dist/index.js",
