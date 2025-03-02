@@ -11,17 +11,12 @@ export const main = async ({
 }: { mode: Mode; scripts: string[] }) => {
 	const config = await loadConfig();
 
-	const getEntryPoints = (filePaths?: string[]) =>
-		scripts.flatMap((filepath) => {
-			if (filePaths !== undefined && !filePaths.includes(filepath)) {
-				return [];
-			}
-
-			const out = /^index\.user\.(j|t)s$/.test(path.basename(filepath))
-				? `${path.basename(path.dirname(filepath))}.user`
-				: path.basename(filepath).replace(/\.(j|t)s$/, "");
-			return [{ out, in: filepath }];
-		});
+	const entryPoints = scripts.map((filepath) => {
+		const out = /^index\.user\.(j|t)s$/.test(path.basename(filepath))
+			? `${path.basename(path.dirname(filepath))}.user`
+			: path.basename(filepath).replace(/\.(j|t)s$/, "");
+		return { out, in: filepath };
+	});
 
 	const commonOptions: esbuild.BuildOptions = {
 		bundle: true,
@@ -38,7 +33,7 @@ export const main = async ({
 			await mkdir(config.dist.dev, { recursive: true });
 
 			await Promise.all(
-				getEntryPoints().map(async (entrypoint) => {
+				entryPoints.map(async (entrypoint) => {
 					const context = await esbuild.context({
 						...commonOptions,
 						entryPoints: [entrypoint],
@@ -61,7 +56,7 @@ export const main = async ({
 
 			await esbuild.build({
 				...commonOptions,
-				entryPoints: getEntryPoints(),
+				entryPoints: entryPoints,
 				outdir: config.dist.production,
 				plugins: [
 					userscriptsPlugin({
