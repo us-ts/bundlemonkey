@@ -1,10 +1,10 @@
 # Bundlemonkey
 
-Bundlemonkey is a userscript bundler designed to make developing browser userscripts fast and efficient 🚀.
+Bundlemonkey is a userscript bundler designed to make developing browser userscripts blazing fast and efficient 🔥.
 
-With TypeScript support and type-safe header comments, managing your code becomes a breeze. Plus, thanks to [esbuild](https://esbuild.github.io/), your build times are lightning fast ⚡.
+With TypeScript support and type-safe header comments, managing your code becomes a breeze ✨.
 
-Should works well with [Tampermonkey](https://www.tampermonkey.net/), [Violentmonkey](https://violentmonkey.github.io/) or [Greasemonkey](https://www.greasespot.net/).
+Works well with [Tampermonkey](https://www.tampermonkey.net/), [Violentmonkey](https://violentmonkey.github.io/) or [Greasemonkey](https://www.greasespot.net/) ✅.
 
 ## Features ✨
 
@@ -18,7 +18,9 @@ Should works well with [Tampermonkey](https://www.tampermonkey.net/), [Violentmo
 - **Type-Safe Header Comments**  
   Write userscript header metadata in a type-safe and straightforward way. This not only minimizes errors but also makes your code much more maintainable 🛡️.
 
-## Compilation Example ⌨️
+- **Watch mode**
+
+## Compilation Example 🚀
 
 ### source
 
