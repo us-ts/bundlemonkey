@@ -31,6 +31,20 @@ describe(extractMain, () => {
 		`);
 	});
 
+	it("extracts async `main` function as well", async () => {
+		const output = await extractMain(
+			path.resolve(import.meta.dirname, "./scripts/asyncMain.ts"),
+		);
+
+		expect(output).toMatchInlineSnapshot(`
+			"import { defineUserScript } from "../../../..";
+
+			void (async () => {
+					await new Promise((resolve) => globalThis.setTimeout(resolve, 1000));
+				})();"
+		`);
+	});
+
 	it("extracts `main` as a function expression as well", async () => {
 		const output = await extractMain(
 			path.resolve(import.meta.dirname, "./scripts/functionMain.ts"),
