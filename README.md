@@ -1,6 +1,6 @@
 # Bundlemonkey
 
-Bundlemonkey is a cutting-edge bundler designed to make developing browser userscripts fast and efficient 🚀.
+Bundlemonkey is a userscript bundler designed to make developing browser userscripts fast and efficient 🚀.
 
 With TypeScript support and type-safe header comments, managing your code becomes a breeze. Plus, thanks to [esbuild](https://esbuild.github.io/), your build times are lightning fast ⚡.
 
