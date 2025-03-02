@@ -58,7 +58,8 @@ export const generateMetaHeader = ({
 	const headerItemPair = (
 		key: string,
 		value: string | undefined,
-	): [string, string] | undefined => (value ? [key, value] : undefined);
+	): [string, string] | undefined =>
+		value === undefined ? undefined : [key, value];
 
 	const headerMainParts = (
 		[
@@ -83,7 +84,7 @@ export const generateMetaHeader = ({
 	)
 		.filter((v) => v !== undefined)
 		.flatMap(([key, value]) =>
-			value ? [`// @${key.padEnd(12)} ${value}`] : [],
+			value === undefined ? [] : [`// @${key.padEnd(12)} ${value}`],
 		);
 
 	return ["// ==UserScript==", headerMainParts, "// ==/UserScript=="]

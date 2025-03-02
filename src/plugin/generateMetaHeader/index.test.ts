@@ -27,6 +27,26 @@ describe(generateMetaHeader, () => {
 		expect(
 			generateMetaHeader({
 				meta: {
+					name: "",
+					version: "",
+					description: "",
+					match: [],
+				},
+				defaultMeta: {},
+				scriptName: "test-script",
+			}),
+		).toMatchInlineSnapshot(`
+			"// ==UserScript==
+			// @name         
+			// @version      
+			// @description  
+			// @grant        none
+			// ==/UserScript=="
+		`);
+
+		expect(
+			generateMetaHeader({
+				meta: {
 					name: "Test Script",
 					namespace: "test-namespace",
 					version: "1.0.0",
