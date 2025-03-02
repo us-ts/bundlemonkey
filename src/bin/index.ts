@@ -6,16 +6,23 @@ import { main } from "../main";
 const { values, positionals: scripts } = parseArgs({
 	args: process.argv.slice(2),
 	options: {
-		mode: {
-			type: "string",
-			short: "M",
-			default: "build",
+		watch: {
+			type: "boolean",
+			short: "W",
+			default: false,
+		},
+		remote: {
+			type: "boolean",
+			default: false,
 		},
 	},
 	allowPositionals: true,
 });
 
-const mode =
-	values.mode === "dev" || values.mode === "dev-remote" ? values.mode : "prod";
+const mode = values.watch
+	? values.remote
+		? "watchRemote"
+		: "watch"
+	: "production";
 
 await main({ mode, scripts });

@@ -12,7 +12,7 @@ import { extractMain } from "./extractMain";
 import { generateMetaHeader } from "./generateMetaHeader";
 import { hoistConfig } from "./hoistConfig";
 
-export type Mode = "prod" | "dev" | "dev-remote";
+export type Mode = "production" | "watch" | "watchRemote";
 
 export const userscriptsPlugin = ({
 	mode,
@@ -94,20 +94,20 @@ export const userscriptsPlugin = ({
 					const finalCode = `${metaHeader}\n\n${hoistConfig(file.text)}`;
 
 					switch (mode) {
-						case "prod": {
+						case "production": {
 							await writeFile(file.path, finalCode);
 							console.log(styleText("green", `Bundled ${scriptName}`));
 
 							break;
 						}
-						case "dev":
-						case "dev-remote": {
+						case "watch":
+						case "watchRemote": {
 							if (!initialBundleFinished) {
 								initialBundleFinished = true;
 								break;
 							}
 
-							if (mode === "dev-remote" && !remoteModeScriptBundleFinished) {
+							if (mode === "watchRemote" && !remoteModeScriptBundleFinished) {
 								const remoteModeScript = generateMetaHeader({
 									meta: {
 										...meta,
@@ -130,7 +130,7 @@ export const userscriptsPlugin = ({
 
 							await writeFile(file.path, finalCode);
 
-							if (mode === "dev") {
+							if (mode === "watch") {
 								await clipboard.write(finalCode);
 							}
 
