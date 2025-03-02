@@ -55,41 +55,38 @@ export const generateMetaHeader = ({
 		downloadURL,
 	};
 
-	return [
-		"// ==UserScript==",
-		`// @name         ${mergedMeta.name}`,
-		mergedMeta.namespace
-			? `// @namespace    ${mergedMeta.namespace}`
-			: undefined,
-		`// @version      ${mergedMeta.version}`,
-		`// @description  ${mergedMeta.description}`,
-		mergedMeta.author || mergedMeta.namespace
-			? `// @author       ${mergedMeta.author ?? mergedMeta.namespace}`
-			: undefined,
-		mergedMeta.homepage
-			? [
-					`// @homepage     ${mergedMeta.homepage}`,
-					`// @homepageURL  ${mergedMeta.homepage}`,
-				]
-			: undefined,
-		mergedMeta.updateURL
-			? `// @updateURL    ${mergedMeta.updateURL}`
-			: undefined,
-		mergedMeta.downloadURL
-			? `// @downloadURL  ${mergedMeta.downloadURL}`
-			: undefined,
-		mergedMeta.match.map((matchString) => `// @match        ${matchString}`),
-		mergedMeta.icon && `// @icon         ${mergedMeta.icon}`,
-		mergedMeta.runAt && `// @run-at       ${mergedMeta.runAt}`,
-		mergedMeta.grant === undefined
-			? "// @grant        none"
-			: mergedMeta.grant.length === 0
-				? undefined
-				: mergedMeta.grant.map((g) => `// @grant        ${g}`),
-		...(mergedMeta.require ?? []).map((url) => `// @require      ${url}`),
-		(mergedMeta.connect ?? []).map((value) => `// @connect      ${value}`),
-		"// ==/UserScript==",
-	]
+	const headerItemPair = (
+		key: string,
+		value: string | undefined,
+	): [string, string] | undefined => (value ? [key, value] : undefined);
+
+	const headerMainParts = (
+		[
+			headerItemPair("name", mergedMeta.name),
+			headerItemPair("namespace", mergedMeta.namespace),
+			headerItemPair("version", mergedMeta.version),
+			headerItemPair("description", mergedMeta.description),
+			headerItemPair("author", mergedMeta.author ?? mergedMeta.namespace),
+			headerItemPair("homepage", mergedMeta.homepage),
+			headerItemPair("homepageURL", mergedMeta.homepage),
+			headerItemPair("updateURL", mergedMeta.updateURL),
+			headerItemPair("downloadURL", mergedMeta.downloadURL),
+			...mergedMeta.match.map((m) => headerItemPair("match", m)),
+			headerItemPair("icon", mergedMeta.icon),
+			headerItemPair("run-at", mergedMeta.runAt),
+			...(mergedMeta.grant === undefined
+				? [headerItemPair("grant", "none")]
+				: (mergedMeta.grant ?? []).map((g) => headerItemPair("grant", g))),
+			...(mergedMeta.require ?? []).map((r) => headerItemPair("require", r)),
+			...(mergedMeta.connect ?? []).map((c) => headerItemPair("connect", c)),
+		] satisfies Array<[string, string] | undefined>
+	)
+		.filter((v) => v !== undefined)
+		.flatMap(([key, value]) =>
+			value ? [`// @${key.padEnd(12)} ${value}`] : [],
+		);
+
+	return ["// ==UserScript==", headerMainParts, "// ==/UserScript=="]
 		.flat()
 		.flatMap((s) => (s ? [s] : []))
 		.join("\n");
