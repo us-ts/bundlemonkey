@@ -13,12 +13,19 @@ describe(extractMain, () => {
 			import { message } from "./module";
 
 			const userscriptConfig = {
+					/**
+					 * @type string
+					 */
 					foo: "bar",
 				}
 
 			void (({ foo }) => {
+					/**
+					 * output imported message
+					 */
 					console.log(message);
 
+					// output config
 					console.log(foo);
 				})(userscriptConfig);"
 		`);
