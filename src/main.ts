@@ -32,8 +32,8 @@ export const main = async ({
 	};
 
 	switch (mode) {
-		case "dev":
-		case "dev-remote": {
+		case "watch":
+		case "watchRemote": {
 			await mkdir(config.dist.dev, { recursive: true });
 
 			await Promise.all(
@@ -55,7 +55,7 @@ export const main = async ({
 			);
 			break;
 		}
-		case "prod": {
+		case "production": {
 			await mkdir(config.dist.production, { recursive: true });
 
 			await esbuild.build({
