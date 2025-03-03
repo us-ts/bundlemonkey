@@ -1,0 +1,17 @@
+{
+	"name": "bundlemonkey-template-typescript",
+	"type": "module",
+	"private": true,
+	"scripts": {
+		"build": "bundlemonkey",
+		"watch": "bundlemonkey --watch",
+		"watch:remote": "bundlemonkey --watch --remote"
+	},
+	"dependencies": {
+		"bundlemonkey": "^0.2.3"
+	},
+	"devDependencies": {
+		"@types/tampermonkey": "^5.0.4",
+		"typescript": "^5.8.2"
+	}
+}
