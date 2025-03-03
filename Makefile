@@ -27,7 +27,10 @@ test: deps PHONY
 test.watch: deps PHONY
 	$(vitest) watch
 
-build: deps PHONY
+clear: PHONY
+	rm -rf dist
+
+build: deps clear PHONY
 	$(tsup)
 	chmod a+x dist/bin/index.js
 
