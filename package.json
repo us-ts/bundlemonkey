@@ -15,6 +15,7 @@
 		".": "./dist/index.js"
 	},
 	"files": ["dist"],
+	"workspaces": ["templates/*"],
 	"dependencies": {
 		"clipboardy": "4.0.0",
 		"esbuild": "0.25.0",
