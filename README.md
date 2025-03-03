@@ -81,7 +81,7 @@ bun add bundlemonkey
 
 ### Setting up your directory structure
 
-Create a directory for your userscripts by using a slug under the src directory. Your project structure might look like this:
+Create a directory for your userscripts by using a slug under the `src` directory. Your project structure might look like this:
 
 <!-- https://tree.nathanfriend.com/?s=(%27options!(%27fancy3~fullPath!false~trailingSlash3~rootDot3)~5(%275%27src4a727**some-module64b02**0dist7%23%20bundled%20code%20goes%20here0bundlemonkey.config6%20%23optional0package.json%27)~version!%271%27)*%20%200%5Cn2**index.user63!true47script-5source!6.ts70*%017654320* -->
 ```bash
@@ -98,7 +98,7 @@ Create a directory for your userscripts by using a slug under the src directory.
 ```
 
 > [!TIP]
-> Userscripts matches glob like `src/*/index.user.{ts,js}` are bundled by default, and [`srcDir`](#srcDir) is configurable.
+> Source scripts are collected by glob `src/*/index.user.{ts,js}` by default, and [`srcDir`](#srcDir) is configurable.
 
 ### Write your code
 
@@ -194,7 +194,7 @@ Dist directory in watch mode.
 
 Default meta used for all userscripts. Metadata defined in `defineUserScript` overrides this.
 
-All meta properties in `defineUserScript` can be used here as well, except for `updateURL`/`downloadURL` which have different signatures like below.
+All meta properties in `defineUserScript` can be used here as well, while `updateURL`/`downloadURL` have different signatures like below.
 
 #### defaultMeta.updateURL
 
