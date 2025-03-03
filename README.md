@@ -69,7 +69,23 @@ void (() => {
 
 ## Quick Start 🚀
 
-To get started with Bundlemonkey, install it using npm, pnpm, or bun:
+### 1. Setup
+
+You can setup new project quickly using the template ([1a](#1a-use-template)), or do it manually ([1b](#1b-setup-manually)).
+
+#### 1a. Use template
+
+```bash
+npx bundlemonkey --create
+
+# or like
+pnpx bundlemonkey --create
+bunx bundlemonkey --create
+```
+
+#### 1b. Setup manually
+
+Install Bundlemonkey using npm, pnpm, or bun:
 
 ```bash
 npm install --save bundlemonkey
@@ -78,8 +94,6 @@ npm install --save bundlemonkey
 pnpm add bundlemonkey
 bun add bundlemonkey
 ```
-
-### Setting up your directory structure
 
 Create a directory for your userscripts by using a slug under the `src` directory. Your project structure might look like this:
 
@@ -100,11 +114,11 @@ Create a directory for your userscripts by using a slug under the `src` director
 > [!TIP]
 > Source scripts are collected by glob `src/*/index.user.{ts,js}` by default, and [`srcDir`](#srcDir) is configurable.
 
-### Write your code
+### 2. Write your code
 
 `index.user.ts`/`index.user.js` must define script using `defineUserScript` and export it as the default export.
 
-### Build
+### 3. Build
 
 Run the following command to bundle your code:
 
