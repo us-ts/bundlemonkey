@@ -1,10 +1,9 @@
 import { writeFile } from "node:fs/promises";
 import path from "node:path";
-import url from "node:url";
 import { styleText } from "node:util";
 import clipboard from "clipboardy";
 import type * as esbuild from "esbuild";
-import * as importx from "importx";
+import { createJiti } from "jiti";
 import * as v from "valibot";
 import type { ParsedConfig } from "../config";
 import { type Meta, metaSchema } from "../meta";
@@ -13,6 +12,8 @@ import { generateMetaHeader } from "./generateMetaHeader";
 import { hoistConfig } from "./hoistConfig";
 
 export type Mode = "production" | "watch" | "watchRemote";
+
+const jiti = createJiti(import.meta.url, { moduleCache: false });
 
 export const userscriptsPlugin = ({
 	mode,
@@ -39,25 +40,12 @@ export const userscriptsPlugin = ({
 				}
 
 				try {
-					const imported = (await importx.import(
-						url
-							.pathToFileURL(
-								path.resolve(
-									process.cwd(),
-									/**
-									 * disable ESM cache forcibly
-									 */
-									`${args.path}?t=${Date.now()}`,
-								),
-							)
-							.toString(),
-						import.meta.url,
-					)) as unknown;
-
-					const { default: parsedMeta } = v.parse(
-						v.object({ default: metaSchema }),
-						imported,
+					const imported = await jiti.import(
+						path.resolve(process.cwd(), args.path),
+						{ default: true },
 					);
+
+					const parsedMeta = v.parse(metaSchema, imported);
 
 					metaStore[scriptName] = parsedMeta;
 				} catch (err) {
