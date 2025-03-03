@@ -178,14 +178,14 @@ Directory where your source scripts are located.
 #### dist.dev
 
 - type: `string`
-- Default: `.dev`
+- Default: `".dev"`
 
 Dist directory in watch mode.
 
 #### dist.production
 
 - type: `string`
-- Default: `dist`
+- Default: `"dist"`
 
 ### defaultMeta
 
