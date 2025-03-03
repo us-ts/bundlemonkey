@@ -2,7 +2,7 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { styleText } from "node:util";
 import * as esbuild from "esbuild";
-import { glob } from "fast-glob";
+import { glob } from "glob";
 import { loadConfig } from "./config/index.js";
 import { type Mode, userscriptsPlugin } from "./plugin/index.js";
 
