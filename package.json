@@ -7,10 +7,14 @@
 		"url": "https://github.com/mkobayashime/bundlemonkey"
 	},
 	"private": false,
-	"module": "src/index.ts",
 	"type": "module",
 	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
 	"bin": "dist/bin/index.js",
+	"exports": {
+		"default": "dist/index.js",
+		"types": "dist/index.d.ts"
+	},
 	"files": ["dist"],
 	"dependencies": {
 		"clipboardy": "4.0.0",
