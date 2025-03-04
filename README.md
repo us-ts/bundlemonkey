@@ -9,7 +9,7 @@ Works well with [Tampermonkey](https://www.tampermonkey.net/), [Violentmonkey](h
 ## Features ✨
 
 - **Lightning-Fast Builds**  
-  Bundlemonkey is powered by [esbuild](https://esbuild.github.io/), ensuring incredibly fast bundling speeds.
+  Incredibly fast bundling speeds, thanks to [esbuild](https://esbuild.github.io/).
 
 - **TypeScript Support**
 
@@ -20,7 +20,7 @@ Works well with [Tampermonkey](https://www.tampermonkey.net/), [Violentmonkey](h
 
 - **Watch mode**
 
-### Compilation Example 🛠️
+### Compilation Example
 
 #### source
 
@@ -116,11 +116,11 @@ Create a directory for your userscripts by using a slug under the `src` director
 
 ### 2. Write your code
 
-`index.user.ts`/`index.user.js` must define script using `defineUserScript` and export it as the default export.
+`index.user.ts`/`index.user.js` must define script using `defineUserScript` and export it as the default export. See [Define UserScript](#define-userscript-) section for more details.
 
 ### 3. Build
 
-Run the following command to bundle your code:
+Run the following command to compile your code:
 
 ```bash
 npx bundlemonkey
@@ -130,19 +130,171 @@ pnpx bundlemonkey
 bunx bundlemonkey
 ```
 
-Bundlemonkey bundles your code into `dist` directory 🎉.
+Bundlemonkey compiles your code into `dist` directory 🎉.
 
-Watch mode are supported as well, so you can have it rebuild your scripts automatically. See [CLI](#cli-%EF%B8%8F) docs below for more details.
+[Watch mode](#watch-mode) and [Remote watch mode](#remote-watch-mode) are supported as well, so you can have it rebuild your scripts automatically. See [CLI](#cli-%EF%B8%8F) docs below for more details.
+
+## Build Modes 🛠️
+
+### Production Mode
+
+All source scripts will be compiled at once.
+
+Compiled scripts will be located in [`dist.production`](#distproduction) directory.
+
+### Watch Mode
+
+Bundlemonkey monitors edits to the source scripts. When an edit is detected, it compiles the source and copies the output to the clipboard.
+Please paste and save it in your userscripts manager's editor for use.
+
+Compiled scripts will be located in [`dist.dev`](#distdev) directory.
+
+### Remote Watch Mode
+
+Similar to Watch mode, it monitors edits to the source scripts; however, in this mode, you do not need to paste into the editor every time you make changes.
+
+When a source script is edited, a *remote* script will be copied to the clipboard only the first time. Once you paste and save this remote script in your userscripts manager's editor, subsequent edits to the source script will be automatically reflected.
+
+You need to allow your userscript manager access to local files to use this mode. Please refer to [Tampermonkey's FAQ](https://www.tampermonkey.net/faq.php?locale=en#Q204) for more details.
+
+> [!TIP]
+> A *remote* script is a plain userscript that simply `@require`s  the actual userscript code.
 
 ## CLI ⌨️
 
+```bash
+bundlemonkey [--watch] [--remote] [--create]
+```
+
 ### `--watch`
 
-Enable watch mode for automatic rebuilding during development.
+Enable [Watch mode](#watch-mode).
 
 ### `--remote`
 
-Use with `--watch` to enable remote watch mode.
+Use with `--watch` to enable [Remote watch mode](#remote-watch-mode).
+
+## Define Userscript 📝
+
+Source script must define a userscript using `defineUserScript` and export it as a default export.
+
+```typescript
+import { defineUserScript } from "bundlemonkey";
+
+export default defineUserScript({
+  name: "Sample userscript",
+  version: "1.0.0",
+  description: "Write userscripts with ease using bundlemonkey!",
+  match: ["https://example.com/*"],
+  config: {
+    message: 'hello!',
+  },
+  main: (config) => {
+    // your main code here!
+    console.log(config.message)
+  },
+});
+```
+
+### Props of `defineUserScript`
+
+Please see [Tampermonkey Document](https://www.tampermonkey.net/documentation.php) for more details about props other than [`config`](#config)/[`main`](#main).
+
+✅ - required
+
+name|type
+:---|:---
+[config](#config)|`T extends any`
+[main](#main) ✅|`(config: T) => unknown`
+name ✅|`string`
+namespace|`string`
+version ✅|`string`
+description ✅|`string`
+icon|`string`
+grant|[`Grant[]`](#grant)
+author|`string`
+homepage|`string`
+require|`string[]`
+match ✅|`string[]`
+runAt|[`RunAt`](#runat)
+connect|`string[]`
+updateURL|`string`
+downloadURL|`string`
+
+#### Config
+
+Config for the script which is intended to be modifiable by the users of your script.
+
+The value will be defined at the beginning of the userscript as a variable named `userscriptConfig` to make it easy for users to edit.
+
+For example:
+
+```typescript
+export default defineUserScript({
+  // ...
+  config: {
+    message: 'hello!'
+  },
+  main: (config) => {
+    window.alert(config.message);
+  },
+});
+```
+
+will be compiled into:
+
+```typescript
+// ==UserScript==
+// ...
+// ==/UserScript==
+
+var userscriptConfig = {
+  message: "hello!"
+};
+
+void ((config) => {
+  window.alert(config.message);
+})(userscriptConfig);
+```
+
+#### Main
+
+Your main userscript code.
+
+It can be either a synchronous or an asynchronous function, and can receive [config](#config) as a prop.
+
+#### Grant
+
+[Tampermonkey docs](https://www.tampermonkey.net/documentation.php#meta:grant)
+
+All APIs supported by Tampermonkey (`GM_*`, `GM.*`, `unsafeWindow`, `window.onurlchange`, `window.close` and `window.focus`) can be specified.
+
+```typescript
+type Grant =
+  | "unsafeWindow"
+  | "GM_addElement"
+  | "GM_addStyle"
+  // ...
+  | "GM.addStyle"
+  | "GM.setValue"
+  // ...
+  | "window.onurlchange"
+  | "window.close"
+  | "window.focus";
+```
+
+#### RunAt
+
+[Tampermonkey docs](https://www.tampermonkey.net/documentation.php#meta:run_at)
+
+```typescript
+type RunAt =
+  | "document-end"
+  | "document-start"
+  | "document-body"
+  | "document-idle"
+  | "context-menu";
+```
 
 ## Configuration ⚙️
 
@@ -206,9 +358,9 @@ Dist directory in watch mode.
 - type: `object`
 - Default: `undefined`
 
-Default meta used for all userscripts. Metadata defined in `defineUserScript` overrides this.
+Default meta used for all userscripts. Metadata defined in [`defineUserScript`](#props-of-defineuserscript) overrides this.
 
-All meta properties in `defineUserScript` can be used here as well, while `updateURL`/`downloadURL` have different signatures like below.
+All meta properties in [`defineUserScript`](#props-of-defineuserscript) can be used here as well, while `updateURL`/`downloadURL` have different signatures like below.
 
 #### defaultMeta.updateURL
 
