@@ -75,7 +75,9 @@ export const generateMetaHeader = ({
 			...mergedMeta.match.map((m) => headerItemPair("match", m)),
 			headerItemPair("icon", mergedMeta.icon),
 			headerItemPair("run-at", mergedMeta.runAt),
-			...(mergedMeta.grant ?? []).map((g) => headerItemPair("grant", g)),
+			...(mergedMeta.grant === "none"
+				? [headerItemPair("grant", "none")]
+				: (mergedMeta.grant ?? []).map((g) => headerItemPair("grant", g))),
 			...(mergedMeta.require ?? []).map((r) => headerItemPair("require", r)),
 			...(mergedMeta.connect ?? []).map((c) => headerItemPair("connect", c)),
 		] satisfies Array<[string, string] | undefined>

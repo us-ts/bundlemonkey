@@ -11,6 +11,7 @@ describe(generateMetaHeader, () => {
 					version: "1.0.0",
 					description: "test description",
 					match: [],
+					grant: "none",
 				},
 				defaultMeta: {},
 				scriptName: "test-script",
@@ -20,6 +21,7 @@ describe(generateMetaHeader, () => {
 			// @name         Test Script
 			// @version      1.0.0
 			// @description  test description
+			// @grant        none
 			// ==/UserScript=="
 		`);
 

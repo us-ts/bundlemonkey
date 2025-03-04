@@ -211,12 +211,12 @@ namespace|`string`
 version ✅|`string`
 description ✅|`string`
 icon|`string`
-grant|[`Grant[]`](#grant)
+[grant](#grant)|`Grant[] \| "none"`
 author|`string`
 homepage|`string`
 require|`string[]`
 match ✅|`string[]`
-runAt|[`RunAt`](#runat)
+[runAt](#runat)|`RunAt`
 connect|`string[]`
 updateURL|`string`
 downloadURL|`string`
