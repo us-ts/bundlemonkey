@@ -20,7 +20,6 @@ describe(generateMetaHeader, () => {
 			// @name         Test Script
 			// @version      1.0.0
 			// @description  test description
-			// @grant        none
 			// ==/UserScript=="
 		`);
 
@@ -40,7 +39,6 @@ describe(generateMetaHeader, () => {
 			// @name         
 			// @version      
 			// @description  
-			// @grant        none
 			// ==/UserScript=="
 		`);
 
@@ -120,7 +118,6 @@ describe(generateMetaHeader, () => {
 			// @author       test-author
 			// @updateURL    https://example.com/userscripts/test-script-1.0.0.user.js
 			// @downloadURL  https://example.com/userscripts/test-script-1.0.0.user.js
-			// @grant        none
 			// ==/UserScript=="
 		`);
 	});
