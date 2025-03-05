@@ -103,7 +103,7 @@ export const metaSchema = v.object({
 	),
 	description: v.optional(v.string()),
 	icon: v.optional(v.string()),
-	grant: v.optional(v.union([v.array(grantSchema), v.literal("none")])),
+	grant: v.optional(v.union([v.array(grantSchema), v.literal("none")]), []),
 	author: v.optional(v.string()),
 	homepage: v.optional(v.string()),
 	antiFeature: v.optional(v.array(antiFeatureSchema), []),
