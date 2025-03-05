@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 
+import { existsSync } from "node:fs";
 import { cp } from "node:fs/promises";
 import path from "node:path";
 import { parseArgs, styleText } from "node:util";
@@ -28,8 +29,17 @@ void (async () => {
 	});
 
 	if (values.create) {
-		const projectName = await input({ message: "Name of the project" });
-		const projectPath = path.resolve(process.cwd(), projectName);
+		const projectDirname = await input({ message: "Project directory" });
+		const projectPath = path.resolve(process.cwd(), projectDirname);
+
+		if (existsSync(projectPath)) {
+			console.error(
+				styleText(["bgRed", "whiteBright"], " Error "),
+				`Directory already exists: ${projectPath}`,
+			);
+
+			process.exit(1);
+		}
 
 		await cp(
 			path.resolve(import.meta.dirname, "../../templates/template-typescript"),
@@ -38,7 +48,14 @@ void (async () => {
 		);
 
 		console.log(
-			styleText("green", `Successfully created project: ${projectName}`),
+			`
+${styleText("green", `Successfully created project: ${projectDirname}`)}
+
+Next steps:
+  1. ${styleText("blueBright", `cd ${projectDirname}`)}
+  2. ${styleText("blueBright", "[npm | pnpm | bun] install")}
+  3. ${styleText("blueBright", "[npm | pnpm | bun] run build")}
+`.trimRight(),
 		);
 
 		return;
