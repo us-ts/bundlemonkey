@@ -6,7 +6,7 @@ import type * as esbuild from "esbuild";
 import { createJiti } from "jiti";
 import * as v from "valibot";
 import type { ParsedConfig } from "../config";
-import { type Meta, metaSchema } from "../meta";
+import { type ParsedMeta, metaSchema } from "../meta";
 import { extractMain } from "./extractMain";
 import { generateMetaHeader } from "./generateMetaHeader";
 import { hoistConfig } from "./hoistConfig";
@@ -22,7 +22,7 @@ export const userscriptsPlugin = ({
 	mode: Mode;
 	defaultMeta: ParsedConfig["defaultMeta"];
 }): esbuild.Plugin => {
-	const metaStore: Record<string, Meta> = {};
+	const metaStore: Record<string, ParsedMeta> = {};
 
 	let initialBundleFinished = false;
 	let remoteModeScriptBundleFinished = false;

@@ -1,12 +1,12 @@
 import type { ParsedConfig } from "../../config";
-import type { Meta } from "../../meta";
+import type { ParsedMeta } from "../../meta";
 
 export const generateMetaHeader = ({
 	meta,
 	defaultMeta,
 	scriptName,
 }: {
-	meta: Meta;
+	meta: ParsedMeta;
 	defaultMeta: ParsedConfig["defaultMeta"];
 	scriptName: string;
 }) => {
@@ -48,46 +48,73 @@ export const generateMetaHeader = ({
 		return meta.downloadURL;
 	})();
 
-	const mergedMeta: Meta = {
+	const mergedMeta: ParsedMeta = {
 		...defaultMeta,
 		...meta,
 		updateURL,
 		downloadURL,
 	};
 
-	const headerItemPair = (
+	const tagPair = (
 		key: string,
-		value: string | undefined,
-	): [string, string] | undefined =>
-		value === undefined ? undefined : [key, value];
+		value: string | boolean | undefined,
+	): [string, string | true] | undefined =>
+		value === undefined || value === false ? undefined : [key, value];
 
-	const headerMainParts = (
-		[
-			headerItemPair("name", mergedMeta.name),
-			headerItemPair("namespace", mergedMeta.namespace),
-			headerItemPair("version", mergedMeta.version),
-			headerItemPair("description", mergedMeta.description),
-			headerItemPair("author", mergedMeta.author ?? mergedMeta.namespace),
-			headerItemPair("homepage", mergedMeta.homepage),
-			headerItemPair("homepageURL", mergedMeta.homepage),
-			headerItemPair("updateURL", mergedMeta.updateURL),
-			headerItemPair("downloadURL", mergedMeta.downloadURL),
-			...mergedMeta.match.map((m) => headerItemPair("match", m)),
-			headerItemPair("icon", mergedMeta.icon),
-			headerItemPair("run-at", mergedMeta.runAt),
-			...(mergedMeta.grant === "none"
-				? [headerItemPair("grant", "none")]
-				: (mergedMeta.grant ?? []).map((g) => headerItemPair("grant", g))),
-			...(mergedMeta.require ?? []).map((r) => headerItemPair("require", r)),
-			...(mergedMeta.connect ?? []).map((c) => headerItemPair("connect", c)),
-		] satisfies Array<[string, string] | undefined>
-	)
-		.filter((v) => v !== undefined)
-		.flatMap(([key, value]) =>
-			value === undefined ? [] : [`// @${key.padEnd(12)} ${value}`],
-		);
+	const tags = [
+		tagPair("name", mergedMeta.name),
+		tagPair("namespace", mergedMeta.namespace ?? mergedMeta.author),
+		tagPair("copyright", mergedMeta.copyright),
+		tagPair("version", mergedMeta.version),
+		tagPair("description", mergedMeta.description),
+		tagPair("icon", mergedMeta.icon),
+		...(mergedMeta.grant === "none"
+			? [tagPair("grant", "none")]
+			: (mergedMeta.grant ?? []).map((v) => tagPair("grant", v))),
+		tagPair("author", mergedMeta.author),
+		tagPair("homepage", mergedMeta.homepage),
+		tagPair("homepageURL", mergedMeta.homepage),
+		...mergedMeta.antiFeature.map(({ type, description }) =>
+			tagPair("antifeature", `${type.padEnd(8)}  ${description}`),
+		),
+		...mergedMeta.require.map((v) => tagPair("require", v)),
+		...mergedMeta.resource.map(({ name, url }) =>
+			tagPair("resource", `${name}  ${url}`),
+		),
+		...mergedMeta.match.map((v) => tagPair("match", v)),
+		...mergedMeta.excludeMatch.map((v) => tagPair("exclude-match", v)),
+		...mergedMeta.include.map((v) => tagPair("include", v)),
+		...mergedMeta.exclude.map((v) => tagPair("exclude", v)),
+		tagPair("run-at", mergedMeta.runAt),
+		...mergedMeta.runIn.map((v) => tagPair("run-in", v)),
+		tagPair("sandbox", mergedMeta.sandbox),
+		tagPair("inject-into", mergedMeta.injectInto),
+		...mergedMeta.tag.map((v) => tagPair("tag", v)),
+		...mergedMeta.connect.map((v) => tagPair("connect", v)),
+		tagPair("noframes", mergedMeta.noframes),
+		tagPair("updateURL", mergedMeta.updateURL),
+		tagPair("downloadURL", mergedMeta.downloadURL),
+		tagPair("supportURL", mergedMeta.supportURL),
+		tagPair("unwrap", mergedMeta.unwrap),
+		tagPair("topLevelAwait", mergedMeta.topLevelAwait),
+	].filter((v) => v !== undefined);
 
-	return ["// ==UserScript==", headerMainParts, "// ==/UserScript=="]
+	const tagNames = tags.map(([tagName]) => tagName);
+	const longestTagNameLength = Math.max(
+		...tagNames.map((tagName) => tagName.length),
+	);
+
+	return [
+		"// ==UserScript==",
+		tags.flatMap(([key, value]) =>
+			value === undefined
+				? []
+				: [
+						`// @${key.padEnd(longestTagNameLength)}  ${value === true ? "" : value}`.trimEnd(),
+					],
+		),
+		"// ==/UserScript==",
+	]
 		.flat()
 		.flatMap((s) => (s ? [s] : []))
 		.join("\n");
