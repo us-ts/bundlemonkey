@@ -176,7 +176,7 @@ Use with `--watch` to enable [Remote watch mode](#remote-watch-mode).
 
 ## Define Userscript 📝
 
-Source script must define a userscript using `defineUserScript` and export it as a default export.
+Source script must define a userscript using `defineUserScript` and export it as a default export. It might look like:
 
 ```typescript
 import { defineUserScript } from "bundlemonkey";
@@ -187,7 +187,7 @@ export default defineUserScript({
   description: "Write userscripts with ease using bundlemonkey!",
   match: ["https://example.com/*"],
   config: {
-    message: 'hello!',
+    message: "hello!",
   },
   main: (config) => {
     // your main code here!
@@ -198,34 +198,48 @@ export default defineUserScript({
 
 ### Props of `defineUserScript`
 
-Please see [Tampermonkey Document](https://www.tampermonkey.net/documentation.php) for more details about props other than [`config`](#config)/[`main`](#main).
+Please see docs of [Tampermonkey](https://www.tampermonkey.net/documentation.php) or [Violentmonkey](https://violentmonkey.github.io/api/metadata-block/) for more details about props other than [`config`](#config)/[`main`](#main).
 
 ✅ - required
 
-name|type
-:---|:---
+name|type|default
+:---|:---|:---
 [config](#config)|`T extends any`
-[main](#main) ✅|`(config: T) => unknown`
-name ✅|`string`
-namespace|`string`
-version ✅|`string`
-description ✅|`string`
-icon|`string`
-[grant](#grant)|`Grant[] \| "none"`
-author|`string`
-homepage|`string`
-require|`string[]`
-match ✅|`string[]`
-[runAt](#runat)|`RunAt`
-connect|`string[]`
-updateURL|`string`
-downloadURL|`string`
+[main](#main) ✅|`(config: T) => unknown`|---
+name ✅|`string`|---
+namespace|`string`|
+copyright|`string`|
+version ✅|`string`|---
+description|`string`|
+icon|`string`|
+[grant](#grant)|`Grant[] \| "none"`|
+author|`string`|
+homepage|`string`|
+[antiFeature](#antifeature)|`AntiFeature[]`|`[]`
+require|`string[]`|`[]`
+resource|`{ name: string; url: string; }[]`|`[]`
+match|`string[]`|`[]`
+excludeMatch|`string[]`|`[]`
+include|`string[]`|`[]`
+exclude|`string[]`|`[]`
+[runAt](#runat)|`RunAt`|
+runIn|`string[]`|`[]`
+sandbox|`"raw" \| "JavaScript" \| "DOM"`|
+injectInto|`"page" \| "content" \| "auto"`|
+tag|`string[]`|`[]`
+connect|`string[]`|`[]`
+noframes|`boolean`|`false`
+updateURL|`string`|
+downloadURL|`string`|
+supportURL|`string`|
+unwrap|`boolean`|`false`
+topLevelAwait|`boolean`|`false`
 
 #### Config
 
 Config for the script which is intended to be modifiable by the users of your script.
 
-The value will be defined at the beginning of the userscript as a variable named `userscriptConfig` to make it easy for users to edit.
+If present, the value will be defined at the beginning of the compiled userscript as a variable named `userscriptConfig` to make it easy for users to edit.
 
 For example:
 
@@ -233,7 +247,11 @@ For example:
 export default defineUserScript({
   // ...
   config: {
-    message: 'hello!'
+    /**
+     * Edit this to change the message
+     * @type string
+     */
+    message: "hello!"
   },
   main: (config) => {
     window.alert(config.message);
@@ -249,6 +267,10 @@ will be compiled into:
 // ==/UserScript==
 
 var userscriptConfig = {
+  /**
+   * Edit this to change the message
+   * @type string
+   */
   message: "hello!"
 };
 
@@ -267,7 +289,7 @@ It can be either a synchronous or an asynchronous function, and can receive [con
 
 [Tampermonkey docs](https://www.tampermonkey.net/documentation.php#meta:grant)
 
-All APIs supported by Tampermonkey (`GM_*`, `GM.*`, `unsafeWindow`, `window.onurlchange`, `window.close` and `window.focus`) can be specified.
+All APIs supported by Tampermonkey, Violentmonkey and Greasemonkey (`GM_*`, `GM.*`, `unsafeWindow`, `window.onurlchange`, `window.close` and `window.focus`) can be specified.
 
 ```typescript
 type Grant =
@@ -281,6 +303,17 @@ type Grant =
   | "window.onurlchange"
   | "window.close"
   | "window.focus";
+```
+
+#### AntiFeature
+
+[Tampermonkey docs](https://www.tampermonkey.net/documentation.php#meta:antifeature)
+
+```typescript
+type AntiFeature = {
+  type: "ads" | "tracking" | "miner";
+  description: string;
+};
 ```
 
 #### RunAt
