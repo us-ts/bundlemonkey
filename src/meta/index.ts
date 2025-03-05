@@ -90,10 +90,17 @@ const injectIntoSchema = v.union([
 ]);
 
 export const metaSchema = v.object({
-	name: v.string(),
+	name: v.pipe(
+		// https://github.com/fabian-hiller/valibot/issues/1034#issuecomment-2634468346
+		v.optional(v.string(), () => undefined),
+		v.string('"name" is required'),
+	),
 	namespace: v.optional(v.string()),
 	copyright: v.optional(v.string()),
-	version: v.string(),
+	version: v.pipe(
+		v.optional(v.string(), () => undefined),
+		v.string('"version" is required'),
+	),
 	description: v.optional(v.string()),
 	icon: v.optional(v.string()),
 	grant: v.optional(v.union([v.array(grantSchema), v.literal("none")])),
