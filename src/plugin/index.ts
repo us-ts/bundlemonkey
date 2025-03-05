@@ -22,7 +22,7 @@ export const userscriptsPlugin = ({
 	mode: Mode;
 	defaultMeta: ParsedConfig["defaultMeta"];
 }): esbuild.Plugin => {
-	const metaStore: Record<string, ParsedMeta> = {};
+	const metaStore: Record<string, ParsedMeta | null> = {};
 
 	let initialBundleFinished = false;
 	let remoteModeScriptBundleFinished = false;
@@ -40,24 +40,62 @@ export const userscriptsPlugin = ({
 				}
 
 				try {
+					const sourceWithMainExtracted = await extractMain(args.path);
+
 					const imported = await jiti.import(
 						path.resolve(process.cwd(), args.path),
 						{ default: true },
 					);
 
-					const parsedMeta = v.parse(metaSchema, imported);
+					const parsedMeta = v.safeParse(metaSchema, imported);
 
-					metaStore[scriptName] = parsedMeta;
+					if (parsedMeta.issues) {
+						metaStore[scriptName] = null;
+
+						const issues = v.flatten(parsedMeta.issues);
+
+						console.error(
+							styleText(["bgRed", "whiteBright"], " Error "),
+							styleText("reset", `Invalid meta for script: ${scriptName}`),
+						);
+
+						console.group();
+						for (const [key, value] of Object.entries(issues.nested ?? {})) {
+							for (const message of value ?? []) {
+								console.error(styleText("reset", `${key}: ${message}`));
+							}
+						}
+						console.groupEnd();
+					} else {
+						metaStore[scriptName] = parsedMeta.output;
+					}
+
+					return {
+						contents: sourceWithMainExtracted,
+						loader: "ts",
+					};
 				} catch (err) {
-					console.error(err);
+					metaStore[scriptName] = null;
+
+					console.error(
+						styleText(["bgRed", "whiteBright"], " Error "),
+						styleText("reset", `Invalid script: ${scriptName}`),
+					);
+
+					console.group();
+					console.error(
+						styleText(
+							"reset",
+							err instanceof Error ? err.message : String(err),
+						),
+					);
+					console.groupEnd();
+
+					return {
+						contents: "",
+						loader: "ts",
+					};
 				}
-
-				const sourceWithMainExtracted = await extractMain(args.path);
-
-				return {
-					contents: sourceWithMainExtracted,
-					loader: "ts",
-				};
 			});
 
 			build.onEnd(async (result) => {
@@ -70,6 +108,15 @@ export const userscriptsPlugin = ({
 					}
 
 					const meta = metaStore[scriptName];
+
+					if (meta === null) {
+						if (mode === "production") {
+							throw new Error(`Failed to bundle script: ${scriptName}`);
+						}
+
+						return;
+					}
+
 					if (!meta) {
 						throw new Error(`Failed to get meta for script: ${scriptName}`);
 					}
