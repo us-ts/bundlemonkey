@@ -318,7 +318,7 @@ You need to allow your userscript manager access to local files to use this mode
 ## CLI ⌨️
 
 ```bash
-bundlemonkey [--watch] [--remote] [--create]
+bundlemonkey [--watch [--remote]] [--create]
 ```
 
 ### `--watch`
