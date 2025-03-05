@@ -134,46 +134,6 @@ Bundlemonkey compiles your code into `dist` directory 🎉.
 
 [Watch mode](#watch-mode) and [Remote watch mode](#remote-watch-mode) are supported as well, so you can have it rebuild your scripts automatically. See [CLI](#cli-%EF%B8%8F) docs below for more details.
 
-## Build Modes 🛠️
-
-### Production Mode
-
-All source scripts will be compiled at once.
-
-Compiled scripts will be located in [`dist.production`](#distproduction) directory.
-
-### Watch Mode
-
-Bundlemonkey monitors edits to the source scripts. When an edit is detected, it compiles the source and copies the output to the clipboard.
-Please paste and save it in your userscripts manager's editor for use.
-
-Compiled scripts will be located in [`dist.dev`](#distdev) directory.
-
-### Remote Watch Mode
-
-Similar to Watch mode, it monitors edits to the source scripts; however, in this mode, you do not need to paste into the editor every time you make changes.
-
-When a source script is edited, a *remote* script will be copied to the clipboard only the first time. Once you paste and save this remote script in your userscripts manager's editor, subsequent edits to the source script will be automatically reflected.
-
-You need to allow your userscript manager access to local files to use this mode. Please refer to [Tampermonkey's FAQ](https://www.tampermonkey.net/faq.php?locale=en#Q204) for more details.
-
-> [!TIP]
-> A *remote* script is a plain userscript that simply `@require`s  the actual userscript code.
-
-## CLI ⌨️
-
-```bash
-bundlemonkey [--watch] [--remote] [--create]
-```
-
-### `--watch`
-
-Enable [Watch mode](#watch-mode).
-
-### `--remote`
-
-Use with `--watch` to enable [Remote watch mode](#remote-watch-mode).
-
 ## Define Userscript 📝
 
 Source script must define a userscript using `defineUserScript` and export it as a default export. It might look like:
@@ -328,6 +288,46 @@ type RunAt =
   | "document-idle"
   | "context-menu";
 ```
+
+## Build Modes 🛠️
+
+### Production Mode
+
+All source scripts will be compiled at once.
+
+Compiled scripts will be located in [`dist.production`](#distproduction) directory.
+
+### Watch Mode
+
+Bundlemonkey monitors edits to the source scripts. When an edit is detected, it compiles the source and copies the output to the clipboard.
+Please paste and save it in your userscripts manager's editor for use.
+
+Compiled scripts will be located in [`dist.dev`](#distdev) directory.
+
+### Remote Watch Mode
+
+Similar to Watch mode, it monitors edits to the source scripts; however, in this mode, you do not need to paste into the editor every time you make changes.
+
+When a source script is edited, a *remote* script will be copied to the clipboard only the first time. Once you paste and save this remote script in your userscripts manager's editor, subsequent edits to the source script will be automatically reflected.
+
+You need to allow your userscript manager access to local files to use this mode. Please refer to [Tampermonkey's FAQ](https://www.tampermonkey.net/faq.php?locale=en#Q204) for more details.
+
+> [!TIP]
+> A *remote* script is a plain userscript that simply `@require`s  the actual userscript code.
+
+## CLI ⌨️
+
+```bash
+bundlemonkey [--watch] [--remote] [--create]
+```
+
+### `--watch`
+
+Enable [Watch mode](#watch-mode).
+
+### `--remote`
+
+Use with `--watch` to enable [Remote watch mode](#remote-watch-mode).
 
 ## Configuration ⚙️
 
