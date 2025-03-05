@@ -70,7 +70,7 @@ export const generateMetaHeader = ({
 		tagPair("icon", mergedMeta.icon),
 		...(mergedMeta.grant === "none"
 			? [tagPair("grant", "none")]
-			: (mergedMeta.grant ?? []).map((v) => tagPair("grant", v))),
+			: mergedMeta.grant.map((v) => tagPair("grant", v))),
 		tagPair("author", mergedMeta.author),
 		tagPair("homepage", mergedMeta.homepage),
 		tagPair("homepageURL", mergedMeta.homepage),

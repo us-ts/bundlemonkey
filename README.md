@@ -172,7 +172,7 @@ copyright|`string`|
 version ✅|`string`|---
 description|`string`|
 icon|`string`|
-[grant](#grant)|`Grant[] \| "none"`|
+[grant](#grant)|`Grant[] \| "none"`|`[]`
 author|`string`|
 homepage|`string`|
 [antiFeature](#antifeature)|`AntiFeature[]`|`[]`
