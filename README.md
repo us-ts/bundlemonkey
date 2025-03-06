@@ -55,7 +55,6 @@ export default defineUserScript({
 // @version      1.0.0
 // @description  Write userscripts with ease using bundlemonkey!
 // @match        https://example.com/*
-// @grant        none
 // ==/UserScript==
 
 // src/sample/message.ts
@@ -71,7 +70,7 @@ void (() => {
 
 ### 1. Setup
 
-You can setup new project quickly using the template ([1a](#1a-use-template)), or do it manually ([1b](#1b-setup-manually)).
+You can set up new project quickly using the template ([1a](#1a-use-template)), or do it manually ([1b](#1b-setup-manually)).
 
 #### 1a. Use template
 
@@ -95,7 +94,7 @@ pnpm add bundlemonkey
 bun add bundlemonkey
 ```
 
-Create a directory for your userscripts by using a slug under the `src` directory. Your project structure might look like this:
+Create a directory for your userscripts named with the slug under `src` directory. Your project structure might look like this:
 
 <!-- https://tree.nathanfriend.com/?s=(%27options!(%27fancy3~fullPath!false~trailingSlash3~rootDot3)~5(%275%27src4a727**some-module64b02**0dist7%23%20bundled%20code%20goes%20here0bundlemonkey.config6%20%23optional0package.json%27)~version!%271%27)*%20%200%5Cn2**index.user63!true47script-5source!6.ts70*%017654320* -->
 ```bash
@@ -116,7 +115,7 @@ Create a directory for your userscripts by using a slug under the `src` director
 
 ### 2. Write your code
 
-`index.user.ts`/`index.user.js` must define script using `defineUserScript` and export it as the default export. See [Define UserScript](#define-userscript-) section for more details.
+Head into any of the source scripts (`index.user.ts` or `index.user.js`) and start writing your code! See [Define UserScript](#define-userscript-) section for more details.
 
 ### 3. Build
 
@@ -136,7 +135,7 @@ Bundlemonkey compiles your code into `dist` directory 🎉.
 
 ## Define Userscript 📝
 
-Source script must define a userscript using `defineUserScript` and export it as a default export. It might look like:
+Each source script must define its main code, name, version, etc. using `defineUserScript` and export it as the default export. It might look like:
 
 ```typescript
 import { defineUserScript } from "bundlemonkey";
@@ -158,7 +157,7 @@ export default defineUserScript({
 
 ### Props of `defineUserScript`
 
-Please see docs of [Tampermonkey](https://www.tampermonkey.net/documentation.php) or [Violentmonkey](https://violentmonkey.github.io/api/metadata-block/) for more details about props other than [`config`](#config)/[`main`](#main).
+Please see docs of [Tampermonkey](https://www.tampermonkey.net/documentation.php) or [Violentmonkey](https://violentmonkey.github.io/api/metadata-block/) for more details about props other than [`config`](#config) and [`main`](#main).
 
 ✅ - required
 
@@ -368,7 +367,7 @@ export default config;
 Directory where your source scripts are located.
 
 > [!NOTE]
-> The glob for collecting the source files are like: `<cwd>/<srcDir>/*/index.user.{ts,js}`
+> The glob for collecting the source files is like: `<cwd>/<srcDir>/*/index.user.{ts,js}`
 
 ### dist
 
