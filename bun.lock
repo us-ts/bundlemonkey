@@ -5,8 +5,8 @@
       "name": "bundlemonkey",
       "dependencies": {
         "@inquirer/prompts": "^7.3.2",
-        "clipboardy": "4.0.0",
-        "esbuild": "0.25.0",
+        "clipboardy": "^4.0.0",
+        "esbuild": "^0.25.0",
         "glob": "^11.0.1",
         "jiti": "^2.4.2",
         "typescript": "^5.8.2",
@@ -30,8 +30,8 @@
         "bundlemonkey": "^0.2.3",
       },
       "devDependencies": {
-        "@types/tampermonkey": "^5.0.4",
-        "typescript": "^5.8.2",
+        "@types/tampermonkey": "5.0.4",
+        "typescript": "5.8.2",
       },
     },
   },
