@@ -1,0 +1,10 @@
+{
+	"$schema": "https://docs.renovatebot.com/renovate-schema.json",
+	"extends": ["local>mkobayashime/renovate-config"],
+	"packageRules": [
+		{
+			"matchDepTypes": ["dependencies"],
+			"rangeStrategy": "replace"
+		}
+	]
+}
