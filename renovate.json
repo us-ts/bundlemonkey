@@ -4,7 +4,7 @@
 	"packageRules": [
 		{
 			"matchDepTypes": ["dependencies"],
-			"rangeStrategy": "replace"
+			"rangeStrategy": "bump"
 		}
 	]
 }
