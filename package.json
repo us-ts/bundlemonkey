@@ -33,7 +33,7 @@
 		"@types/bun": "latest",
 		"eslint": "9.19.0",
 		"tsup": "8.4.0",
-		"type-fest": "4.35.0",
+		"type-fest": "4.37.0",
 		"vitest": "3.0.7"
 	}
 }
