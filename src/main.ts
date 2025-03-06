@@ -21,6 +21,7 @@ export const main = async ({ mode }: { mode: Mode }) => {
 		write: false,
 		charset: "utf8",
 		format: "esm",
+		legalComments: "inline",
 	};
 
 	console.log(styleText("blue", `Bundlemonkey started in ${mode} mode\n`));
