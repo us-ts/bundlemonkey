@@ -16,19 +16,34 @@ export const main = async ({ mode }: { mode: Mode }) => {
 		in: filepath,
 	}));
 
-	const getCommonOptions = (): esbuild.BuildOptions => ({
-		bundle: true,
-		write: false,
-		charset: "utf8",
-		format: "esm",
-		legalComments: "inline",
-		plugins: [
-			userscriptsPlugin({
-				mode,
-				defaultMeta: config.defaultMeta,
-			}),
-		],
-	});
+	const getCommonOptions = (entryPoint: {
+		in: string;
+		out: string;
+	}): esbuild.BuildOptions => {
+		const scriptName = path.basename(path.dirname(entryPoint.in));
+
+		if (!scriptName) {
+			throw new Error(
+				`Failed to get scriptName from entryPoint path: ${entryPoint.in}`,
+			);
+		}
+
+		return {
+			entryPoints: [entryPoint],
+			bundle: true,
+			write: false,
+			charset: "utf8",
+			format: "esm",
+			legalComments: "inline",
+			plugins: [
+				userscriptsPlugin({
+					defaultMeta: config.defaultMeta,
+					mode,
+					scriptName,
+				}),
+			],
+		};
+	};
 
 	console.log(styleText("blue", `Bundlemonkey started in ${mode} mode\n`));
 
@@ -38,10 +53,9 @@ export const main = async ({ mode }: { mode: Mode }) => {
 			await mkdir(config.dist.dev, { recursive: true });
 
 			await Promise.all(
-				entryPoints.map(async (entrypoint) => {
+				entryPoints.map(async (entryPoint) => {
 					const context = await esbuild.context({
-						...getCommonOptions(),
-						entryPoints: [entrypoint],
+						...getCommonOptions(entryPoint),
 						outdir: config.dist.dev,
 					});
 
@@ -54,10 +68,9 @@ export const main = async ({ mode }: { mode: Mode }) => {
 			await mkdir(config.dist.production, { recursive: true });
 
 			await Promise.all(
-				entryPoints.map(async (entrypoint) => {
+				entryPoints.map(async (entryPoint) => {
 					await esbuild.build({
-						...getCommonOptions(),
-						entryPoints: [entrypoint],
+						...getCommonOptions(entryPoint),
 						outdir: config.dist.production,
 					});
 				}),

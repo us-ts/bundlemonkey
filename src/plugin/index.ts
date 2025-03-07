@@ -16,11 +16,13 @@ export type Mode = "production" | "watch" | "watchRemote";
 const jiti = createJiti(import.meta.url, { moduleCache: false });
 
 export const userscriptsPlugin = ({
-	mode,
 	defaultMeta,
+	mode,
+	scriptName,
 }: {
-	mode: Mode;
 	defaultMeta: ParsedConfig["defaultMeta"];
+	mode: Mode;
+	scriptName: string;
 }): esbuild.Plugin => {
 	const metaStore: Record<string, ParsedMeta | null> = {};
 
@@ -31,14 +33,6 @@ export const userscriptsPlugin = ({
 		name: "userscripts",
 		setup: (build) => {
 			build.onLoad({ filter: /\.user\.(t|j)s$/ }, async (args) => {
-				const scriptName = path.basename(path.dirname(args.path));
-
-				if (!scriptName) {
-					throw new Error(
-						`Failed to get name of the script from path: ${args.path}`,
-					);
-				}
-
 				try {
 					const sourceWithMainExtracted = await extractMain(args.path);
 
@@ -100,13 +94,6 @@ export const userscriptsPlugin = ({
 
 			build.onEnd(async (result) => {
 				for (const file of result.outputFiles ?? []) {
-					const scriptName = path
-						.basename(file.path)
-						.replace(/\.user\.(j|t)s$/, "");
-					if (!scriptName) {
-						throw new Error(`Failed to get scriptName from path: ${file.path}`);
-					}
-
 					const meta = metaStore[scriptName];
 
 					if (meta === null) {
