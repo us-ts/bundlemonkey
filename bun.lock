@@ -27,7 +27,7 @@
     "templates/template-typescript": {
       "name": "bundlemonkey-template-typescript",
       "dependencies": {
-        "bundlemonkey": "^0.5.0",
+        "bundlemonkey": "^0.6.0",
       },
       "devDependencies": {
         "@types/tampermonkey": "5.0.4",
@@ -290,7 +290,7 @@
 
     "bundle-require": ["bundle-require@5.1.0", "", { "dependencies": { "load-tsconfig": "^0.2.3" }, "peerDependencies": { "esbuild": ">=0.18" } }, "sha512-3WrrOuZiyaaZPWiEt4G3+IffISVC9HYlWueJEBWED4ZH4aIAC2PnkdnuRrR94M+w6yGWn4AglWtJtBI8YqvgoA=="],
 
-    "bundlemonkey": ["bundlemonkey@0.5.0", "", { "dependencies": { "@inquirer/prompts": "^7.3.2", "clipboardy": "4.0.0", "esbuild": "0.25.0", "glob": "^11.0.1", "jiti": "^2.4.2", "typescript": "^5.8.2", "valibot": "^1.0.0-beta.14" }, "bin": { "bundlemonkey": "dist/bin/index.js" } }, "sha512-wVKhtv89dv7U59YVMZUUnN6I/jIAVZxbh8U1In3bIdpFFfhJbrtQe2smhCBkqPzNOUTPd1tj/fp9d1t4hKbLpA=="],
+    "bundlemonkey": ["bundlemonkey@0.6.0", "", { "dependencies": { "@inquirer/prompts": "^7.3.2", "clipboardy": "^4.0.0", "esbuild": "^0.25.0", "glob": "^11.0.1", "jiti": "^2.4.2", "typescript": "^5.8.2", "valibot": "^1.0.0-rc.3" }, "bin": { "bundlemonkey": "dist/bin/index.js" } }, "sha512-OlPcx0YQ5PYrCLLWIgFvSGqf0GOoWsrG0FnHUKooX9ULa/it9xmGCW4+fXzFw/E/yLmt13WHB+JHP4R0t361pw=="],
 
     "bundlemonkey-template-typescript": ["bundlemonkey-template-typescript@workspace:templates/template-typescript"],
 
