@@ -16,13 +16,19 @@ export const main = async ({ mode }: { mode: Mode }) => {
 		in: filepath,
 	}));
 
-	const commonOptions: esbuild.BuildOptions = {
+	const getCommonOptions = (): esbuild.BuildOptions => ({
 		bundle: true,
 		write: false,
 		charset: "utf8",
 		format: "esm",
 		legalComments: "inline",
-	};
+		plugins: [
+			userscriptsPlugin({
+				mode,
+				defaultMeta: config.defaultMeta,
+			}),
+		],
+	});
 
 	console.log(styleText("blue", `Bundlemonkey started in ${mode} mode\n`));
 
@@ -34,15 +40,9 @@ export const main = async ({ mode }: { mode: Mode }) => {
 			await Promise.all(
 				entryPoints.map(async (entrypoint) => {
 					const context = await esbuild.context({
-						...commonOptions,
+						...getCommonOptions(),
 						entryPoints: [entrypoint],
 						outdir: config.dist.dev,
-						plugins: [
-							userscriptsPlugin({
-								mode,
-								defaultMeta: config.defaultMeta,
-							}),
-						],
 					});
 
 					await context.watch();
@@ -53,17 +53,15 @@ export const main = async ({ mode }: { mode: Mode }) => {
 		case "production": {
 			await mkdir(config.dist.production, { recursive: true });
 
-			await esbuild.build({
-				...commonOptions,
-				entryPoints: entryPoints,
-				outdir: config.dist.production,
-				plugins: [
-					userscriptsPlugin({
-						mode,
-						defaultMeta: config.defaultMeta,
-					}),
-				],
-			});
+			await Promise.all(
+				entryPoints.map(async (entrypoint) => {
+					await esbuild.build({
+						...getCommonOptions(),
+						entryPoints: [entrypoint],
+						outdir: config.dist.production,
+					});
+				}),
+			);
 			break;
 		}
 		default: {
