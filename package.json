@@ -15,7 +15,6 @@
 		".": "./dist/index.js"
 	},
 	"files": ["dist", "templates"],
-	"workspaces": ["templates/*"],
 	"dependencies": {
 		"@inquirer/prompts": "^7.4.0",
 		"clipboardy": "^4.0.0",
