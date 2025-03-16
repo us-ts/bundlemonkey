@@ -19,10 +19,12 @@ export const userscriptsPlugin = ({
 	defaultMeta,
 	mode,
 	scriptName,
+	onBuildEnd = () => {},
 }: {
 	defaultMeta: ParsedConfig["defaultMeta"];
 	mode: Mode;
 	scriptName: string;
+	onBuildEnd: ((output: { path: string; content: string }) => void) | undefined;
 }): esbuild.Plugin => {
 	const metaStore: Record<string, ParsedMeta | null> = {};
 
@@ -119,6 +121,8 @@ export const userscriptsPlugin = ({
 					switch (mode) {
 						case "production": {
 							await writeFile(file.path, finalCode);
+							onBuildEnd({ path: file.path, content: finalCode });
+
 							console.log(styleText("green", `Bundled ${scriptName}`));
 
 							break;

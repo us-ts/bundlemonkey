@@ -5,7 +5,7 @@ import { cp } from "node:fs/promises";
 import path from "node:path";
 import { parseArgs, styleText } from "node:util";
 import { input } from "@inquirer/prompts";
-import { main } from "../main";
+import { build, watch } from "../main";
 
 void (async () => {
 	const { values } = parseArgs({
@@ -67,5 +67,10 @@ Next steps:
 			: "watch"
 		: "production";
 
-	await main({ mode });
+	if (mode === "production") {
+		await build();
+		return;
+	}
+
+	await watch({ remote: mode === "watchRemote" });
 })();
