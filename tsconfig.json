@@ -3,5 +3,8 @@
 		"@tsconfig/strictest/tsconfig.json",
 		"@tsconfig/bun/tsconfig.json"
 	],
-	"exclude": ["dist"]
+	"exclude": ["dist", "test/snapshots"],
+	"compilerOptions": {
+		"verbatimModuleSyntax": false
+	}
 }
