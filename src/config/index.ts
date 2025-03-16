@@ -41,7 +41,7 @@ export type Config = OverrideProperties<
 >;
 export type ParsedConfig = v.InferOutput<typeof configSchema>;
 
-export const loadConfig = async () => {
+export const loadConfig = async (config?: Config) => {
 	try {
 		const loaded = await Promise.any(
 			["bundlemonkey.config.ts", "bundlemonkey.config.js"].map(
@@ -51,8 +51,9 @@ export const loadConfig = async () => {
 					}),
 			),
 		);
+		v.assert(v.object({}), loaded);
 
-		const parsed = v.parse(configSchema, loaded);
+		const parsed = v.parse(configSchema, { ...loaded, ...config });
 		return parsed;
 	} catch (_) {
 		return v.parse(configSchema, {});

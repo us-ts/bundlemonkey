@@ -68,7 +68,7 @@ Next steps:
 		: "production";
 
 	if (mode === "production") {
-		await build();
+		await build({});
 		return;
 	}
 

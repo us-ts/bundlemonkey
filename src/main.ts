@@ -3,7 +3,7 @@ import path from "node:path";
 import { styleText } from "node:util";
 import * as esbuild from "esbuild";
 import { glob } from "glob";
-import { type ParsedConfig, loadConfig } from "./config/index.js";
+import { type Config, type ParsedConfig, loadConfig } from "./config/index.js";
 import { type Mode, userscriptsPlugin } from "./plugin/index.js";
 
 const getEntryPoints = async (srcDir: string) =>
@@ -54,7 +54,9 @@ const getCommonOptions = ({
 	};
 };
 
-export const build = async (): Promise<
+export const build = async ({
+	config,
+}: { config?: Config }): Promise<
 	Array<
 		| {
 				path: string;
@@ -65,11 +67,11 @@ export const build = async (): Promise<
 > => {
 	console.log(styleText("blue", "Bundlemonkey started in production mode\n"));
 
-	const config = await loadConfig();
+	const loadedConfig = await loadConfig(config);
 
-	const entryPoints = await getEntryPoints(config.srcDir);
+	const entryPoints = await getEntryPoints(loadedConfig.srcDir);
 
-	await mkdir(config.dist.production, { recursive: true });
+	await mkdir(loadedConfig.dist.production, { recursive: true });
 
 	return await Promise.all(
 		entryPoints.map(async (entryPoint) => {
@@ -78,13 +80,13 @@ export const build = async (): Promise<
 			await esbuild.build({
 				...getCommonOptions({
 					entryPoint,
-					defaultMeta: config.defaultMeta,
+					defaultMeta: loadedConfig.defaultMeta,
 					mode: "production",
 					onBuildEnd: (c) => {
 						output = c;
 					},
 				}),
-				outdir: config.dist.production,
+				outdir: loadedConfig.dist.production,
 			});
 
 			return output;
@@ -92,7 +94,10 @@ export const build = async (): Promise<
 	);
 };
 
-export const watch = async ({ remote }: { remote: boolean }) => {
+export const watch = async ({
+	remote,
+	config,
+}: { remote: boolean; config?: Config }) => {
 	console.log(
 		styleText(
 			"blue",
@@ -100,21 +105,21 @@ export const watch = async ({ remote }: { remote: boolean }) => {
 		),
 	);
 
-	const config = await loadConfig();
+	const loadedConfig = await loadConfig(config);
 
-	const entryPoints = await getEntryPoints(config.srcDir);
+	const entryPoints = await getEntryPoints(loadedConfig.srcDir);
 
-	await mkdir(config.dist.dev, { recursive: true });
+	await mkdir(loadedConfig.dist.dev, { recursive: true });
 
 	await Promise.all(
 		entryPoints.map(async (entryPoint) => {
 			const context = await esbuild.context({
 				...getCommonOptions({
 					entryPoint,
-					defaultMeta: config.defaultMeta,
+					defaultMeta: loadedConfig.defaultMeta,
 					mode: remote ? "watchRemote" : "watch",
 				}),
-				outdir: config.dist.dev,
+				outdir: loadedConfig.dist.dev,
 			});
 
 			await context.watch();
