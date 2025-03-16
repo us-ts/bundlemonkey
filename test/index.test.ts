@@ -3,6 +3,10 @@ import { describe, expect, test } from "vitest";
 import { build } from "../src";
 
 describe("E2E", async () => {
+	const originalConsoleLog = globalThis.console.log;
+
+	globalThis.console.log = () => {};
+
 	const outputs = await build({
 		config: {
 			srcDir: path.resolve(import.meta.dirname, "src"),
@@ -11,6 +15,8 @@ describe("E2E", async () => {
 			},
 		},
 	});
+
+	globalThis.console.log = originalConsoleLog;
 
 	for (const output of outputs.filter((o) => o !== undefined)) {
 		const basename = path.basename(output.path);
