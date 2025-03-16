@@ -9,4 +9,4 @@ export const defineUserScript = <C>(
 	},
 ) => args;
 
-export { main as bundle } from "./main.js";
+export { build, watch } from "./main.js";
