@@ -56,6 +56,6 @@ export const loadConfig = async (config?: Config) => {
 		const parsed = v.parse(configSchema, { ...loaded, ...config });
 		return parsed;
 	} catch (_) {
-		return v.parse(configSchema, {});
+		return v.parse(configSchema, config);
 	}
 };
