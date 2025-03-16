@@ -2,6 +2,9 @@
 	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
 	"extends": ["@mkobayashime/shared-config/biome"],
 	"linter": {
-		"ignore": ["src/**/test/source/*"]
+		"ignore": ["src/**/test/source/*", "test/snapshots/*", "test/.dist/*"]
+	},
+	"formatter": {
+		"ignore": ["test/snapshots/*", "test/.dist/*"]
 	}
 }
