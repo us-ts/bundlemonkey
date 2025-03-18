@@ -2,7 +2,7 @@ import { typescriptWithBiome } from "@mkobayashime/shared-config/eslint";
 
 export default [
 	{
-		ignores: [".tsup", "dist"],
+		ignores: [".tsup", "dist", "templates"],
 	},
 	...typescriptWithBiome,
 	{
