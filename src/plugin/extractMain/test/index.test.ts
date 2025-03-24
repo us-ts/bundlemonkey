@@ -11,6 +11,11 @@ describe(extractMain, () => {
 		expect(output).toMatchInlineSnapshot(`
 			"import { defineUserScript } from "../../../..";
 			import { message } from "./module";
+			/**
+			 * top-level statements
+			 */
+			const foo = "bar";
+			console.log(foo);
 
 			const userscriptConfig = {
 					/**
