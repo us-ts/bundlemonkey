@@ -34,4 +34,7 @@ build: deps clear PHONY
 	$(tsup)
 	chmod a+x dist/bin/index.js
 
+bump.version: PHONY
+	bun run bin/bumpVersion.ts
+
 PHONY:
