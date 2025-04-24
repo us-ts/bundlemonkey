@@ -16,7 +16,7 @@
 	},
 	"files": ["dist", "templates"],
 	"dependencies": {
-		"@inquirer/prompts": "^7.4.1",
+		"@inquirer/prompts": "^7.5.0",
 		"clipboardy": "^4.0.0",
 		"esbuild": "^0.25.2",
 		"glob": "^11.0.1",
