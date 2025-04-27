@@ -18,8 +18,8 @@
 	"dependencies": {
 		"@inquirer/prompts": "^7.5.0",
 		"clipboardy": "^4.0.0",
-		"esbuild": "^0.25.2",
-		"glob": "^11.0.1",
+		"esbuild": "^0.25.3",
+		"glob": "^11.0.2",
 		"jiti": "^2.4.2",
 		"typescript": "^5.8.3",
 		"valibot": "^1.0.0"
@@ -34,7 +34,7 @@
 		"eslint": "9.25.1",
 		"semver": "7.7.1",
 		"tsup": "8.4.0",
-		"type-fest": "4.40.0",
-		"vitest": "3.1.1"
+		"type-fest": "4.40.1",
+		"vitest": "3.1.2"
 	}
 }
