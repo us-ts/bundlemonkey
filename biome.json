@@ -1,10 +1,15 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.0.4/schema.json",
 	"extends": ["@mkobayashime/shared-config/biome"],
 	"linter": {
-		"ignore": ["src/**/test/source/*", "test/snapshots/*", "test/.dist/*"]
+		"includes": [
+			"**",
+			"!**/src/**/test/source/**/*",
+			"!**/test/snapshots/**/*",
+			"!**/test/.dist/**/*"
+		]
 	},
 	"formatter": {
-		"ignore": ["test/snapshots/*", "test/.dist/*"]
+		"includes": ["**", "!**/test/snapshots/**/*", "!**/test/.dist/**/*"]
 	}
 }
