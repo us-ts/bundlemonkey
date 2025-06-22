@@ -1,8 +1,8 @@
 import * as v from "valibot";
 import { describe, expect, it } from "vitest";
-import { generateMetaHeader } from ".";
 import type { Config, ParsedConfig } from "../../config";
 import { type Meta, metaSchema } from "../../meta";
+import { generateMetaHeader } from ".";
 
 describe(generateMetaHeader, () => {
 	it("generates meta header comment", () => {

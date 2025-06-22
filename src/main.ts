@@ -3,7 +3,7 @@ import path from "node:path";
 import { styleText } from "node:util";
 import * as esbuild from "esbuild";
 import { glob } from "glob";
-import { type Config, type ParsedConfig, loadConfig } from "./config/index.js";
+import { type Config, loadConfig, type ParsedConfig } from "./config/index.js";
 import { type Mode, userscriptsPlugin } from "./plugin/index.js";
 
 const getEntryPoints = async (srcDir: string) =>
@@ -56,7 +56,9 @@ const getCommonOptions = ({
 
 export const build = async ({
 	config,
-}: { config?: Config }): Promise<
+}: {
+	config?: Config;
+}): Promise<
 	Array<
 		| {
 				path: string;
@@ -97,7 +99,10 @@ export const build = async ({
 export const watch = async ({
 	remote,
 	config,
-}: { remote: boolean; config?: Config }) => {
+}: {
+	remote: boolean;
+	config?: Config;
+}) => {
 	console.log(
 		styleText(
 			"blue",

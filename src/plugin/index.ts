@@ -6,7 +6,7 @@ import type * as esbuild from "esbuild";
 import { createJiti } from "jiti";
 import * as v from "valibot";
 import type { ParsedConfig } from "../config";
-import { type ParsedMeta, metaSchema } from "../meta";
+import { metaSchema, type ParsedMeta } from "../meta";
 import { extractMain } from "./extractMain";
 import { generateMetaHeader } from "./generateMetaHeader";
 import { hoistConfig } from "./hoistConfig";
