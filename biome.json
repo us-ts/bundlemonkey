@@ -1,15 +1,12 @@
 {
 	"$schema": "https://biomejs.dev/schemas/2.0.4/schema.json",
 	"extends": ["@mkobayashime/shared-config/biome"],
-	"linter": {
+	"files": {
 		"includes": [
 			"**",
-			"!**/src/**/test/source/**/*",
-			"!**/test/snapshots/**/*",
-			"!**/test/.dist/**/*"
+			"!**/src/**/test/source",
+			"!**/test/snapshots",
+			"!**/test/.dist"
 		]
-	},
-	"formatter": {
-		"includes": ["**", "!**/test/snapshots/**/*", "!**/test/.dist/**/*"]
 	}
 }
