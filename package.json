@@ -19,7 +19,7 @@
 		"templates"
 	],
 	"dependencies": {
-		"@inquirer/prompts": "^7.5.2",
+		"@inquirer/prompts": "^7.6.0",
 		"clipboardy": "^4.0.0",
 		"esbuild": "^0.25.4",
 		"glob": "^11.0.2",
