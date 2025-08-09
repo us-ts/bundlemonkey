@@ -6,7 +6,7 @@ With TypeScript support and type-safe header comments, managing your code become
 
 Works well with [Tampermonkey](https://www.tampermonkey.net/), [Violentmonkey](https://violentmonkey.github.io/) or [Greasemonkey](https://www.greasespot.net/) ✅.
 
-## Features ✨
+## Features
 
 - **Lightning-Fast Builds**  
   Incredibly fast bundling speeds, thanks to [esbuild](https://esbuild.github.io/).
@@ -66,7 +66,7 @@ void (() => {
 })();
 ```
 
-## Quick Start 🚀
+## Quick Start
 
 ### 1. Setup
 
@@ -115,7 +115,7 @@ Create a directory for your userscripts named with the slug under `src` director
 
 ### 2. Write your code
 
-Head into any of the source scripts (`index.user.ts` or `index.user.js`) and start writing your code! See [Define UserScript](#define-userscript-) section for more details.
+Head into any of the source scripts (`index.user.ts` or `index.user.js`) and start writing your code! See [Define UserScript](#define-userscript) section for more details.
 
 ### 3. Build
 
@@ -131,9 +131,9 @@ bunx bundlemonkey
 
 Bundlemonkey compiles your code into `dist` directory 🎉.
 
-[Watch mode](#watch-mode) and [Remote watch mode](#remote-watch-mode) are supported as well, so you can have it rebuild your scripts automatically. See [CLI](#cli-%EF%B8%8F) docs below for more details.
+[Watch mode](#watch-mode) and [Remote watch mode](#remote-watch-mode) are supported as well, so you can have it rebuild your scripts automatically. See [CLI](#cli) docs below for more details.
 
-## Define Userscript 📝
+## Define Userscript
 
 Each source script must define its main code, name, version, etc. using `defineUserScript` and export it as the default export. It might look like:
 
@@ -288,7 +288,7 @@ type RunAt =
   | "context-menu";
 ```
 
-## Build Modes 🛠️
+## Build Modes
 
 ### Production Mode
 
@@ -314,7 +314,7 @@ You need to allow your userscript manager access to local files to use this mode
 > [!TIP]
 > A *remote* script is a plain userscript that simply `@require`s  the actual userscript code.
 
-## CLI ⌨️
+## CLI
 
 ```bash
 bundlemonkey [--watch [--remote]] [--create]
@@ -328,7 +328,7 @@ Enable [Watch mode](#watch-mode).
 
 Use with `--watch` to enable [Remote watch mode](#remote-watch-mode).
 
-## Configuration ⚙️
+## Configuration
 
 If you need to customize Bundlemonkey’s behavior, you can create a configuration file named `bundlemonkey.config.ts` or `bundlemonkey.config.js` in your project’s root directory.
 
