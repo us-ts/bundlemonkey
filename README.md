@@ -1,10 +1,10 @@
 # Bundlemonkey
 
-Bundlemonkey is a userscript bundler designed to make developing browser userscripts blazing fast and efficient 🔥.
+Bundlemonkey is a userscript bundler designed to make developing browser userscripts blazing fast and efficient.
 
-With TypeScript support and type-safe header comments, managing your code becomes a breeze ✨.
+With TypeScript support and type-safe header comments, managing your code becomes a breeze.
 
-Works well with [Tampermonkey](https://www.tampermonkey.net/), [Violentmonkey](https://violentmonkey.github.io/) or [Greasemonkey](https://www.greasespot.net/) ✅.
+Works well with [Tampermonkey](https://www.tampermonkey.net/), [Violentmonkey](https://violentmonkey.github.io/) or [Greasemonkey](https://www.greasespot.net/).
 
 ## Features
 
@@ -16,7 +16,7 @@ Works well with [Tampermonkey](https://www.tampermonkey.net/), [Violentmonkey](h
 - **Module Bundling**  
 
 - **Type-Safe Header Comments**  
-  Write userscript header metadata in a type-safe and straightforward way. This not only minimizes errors but also makes your code much more maintainable 🛡️.
+  Write userscript header metadata in a type-safe and straightforward way. This not only minimizes errors but also makes your code much more maintainable.
 
 - **Watch mode**
 
@@ -129,7 +129,7 @@ pnpx bundlemonkey
 bunx bundlemonkey
 ```
 
-Bundlemonkey compiles your code into `dist` directory 🎉.
+Bundlemonkey compiles your code into `dist` directory.
 
 [Watch mode](#watch-mode) and [Remote watch mode](#remote-watch-mode) are supported as well, so you can have it rebuild your scripts automatically. See [CLI](#cli) docs below for more details.
 
