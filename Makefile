@@ -4,8 +4,12 @@ tsup = bunx tsup
 typecheck = bunx tsc --noEmit
 vitest = bunx vitest
 
-deps:
+deps: PHONY
+ifeq ($(CI), true)
+	bun install --frozen-lockfile
+else
 	bun install
+endif
 
 lint: deps PHONY
 	$(biome) check
